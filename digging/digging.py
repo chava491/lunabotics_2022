@@ -9,6 +9,7 @@ import math
 import py_compile
 from pynput import keyboard
 
+
 def key_press(key):
     # stop looking for key inputs 
     if key == keyboard.Key.esc:
