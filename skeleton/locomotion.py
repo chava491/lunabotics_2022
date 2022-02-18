@@ -97,6 +97,7 @@ class Locomotion:
 
         time.sleep(0.1)
 
+        #one of the motors rotation might need to be -5 due to the orientation of the motors being flip-flopped.
         self.ordv1.axis0.controller.input_vel = 5
         self.ordv1.axis1.controller.input_vel = 5
 
