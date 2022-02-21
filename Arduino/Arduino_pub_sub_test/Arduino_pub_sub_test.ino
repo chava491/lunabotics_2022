@@ -1,8 +1,7 @@
 // This arduino code was made using the tutorial
 // found at https://maker.pro/arduino/tutorial/how-to-use-arduino-with-robot-operating-system-ros
 //
-// Copy this to arduino IDE and upload to Arduino
-// in order to compile in Arduino IDE,
+// In order to compile in Arduino IDE,
 // you must install Rosserial Arduino Library and make
 // the following modifications to the ros/msg.h file
 //
