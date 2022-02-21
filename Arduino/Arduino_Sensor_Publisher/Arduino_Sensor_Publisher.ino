@@ -1,6 +1,41 @@
-/*This arduino script is used to take readings from all of the sensors 
+/* Authors:   Abraham Yakisan & Chris Piszczek
+ * Created:   2.19.2021
+  
+  This arduino script is used to take readings from all of the sensors 
   onboard the robot. This script creates a ROS node and publishes all the
   sensor readings to the pyduino_reader_node (Subscriber) which is in a python script.
+ 
+  A tutorial explaining how to setup the arduino as a rosserial ROS node can be found at: 
+  https://maker.pro/arduino/tutorial/how-to-use-arduino-with-robot-operating-system-ros
+
+  In order to compile in Arduino IDE,
+  you must install Rosserial Arduino Library and make
+  the following modifications to the ros/msg.h file
+
+  Summary: (Changes) File - ros/msg.h
+    Change -> #include <cstring> to #include <string.h>
+    Change -> std::memcpy() to memcpy()
+
+  these steps can be found here at https://answers.ros.org/question/361930/rosserial-arduino-compilation-error-no-cstring/
+
+  Load Cells:
+  ===========
+   * The load cells complete a tare in the script setup. Rerun script to tare sensors.
+   * 
+   * 2 calibration values for the load cells are hardcoded in this script: newCalibrationValue and calFactor; 
+   * Here are the steps to determine these two values:
+   * 
+   * 1. run the HX711_Calibration_lbs arduino script and follow the commands given through the serial monitor. After placing 
+   * a known mass, the program will calculate and output a "calibration value". Record that value and set the variable newCalibrationValue 
+   * in this script to that value.
+   * 
+   * 2. calFactor is used to correct the raw readings from load cell, the raw reading is divided 
+   * by calFactor to correct the mass reading, set to 1.0 to read the raw value
+   * 
+   *        Ex: if raw value is 1000g but actual mass on sensors is 200g, set calFactor to 5.
+   * 
+   * We won't need to recalibrate the weight sensors for the robot unless we notice the readings are very off, 
+   * so this is allows for a one and done calibration.
 */
 
 #include <ros.h>
@@ -33,15 +68,12 @@ unsigned long t = 0;
 
 
 void setup() {
-  // put your setup code here, to run once:
-
   //Initilization of ROS node
   node_handle.initNode();
   node_handle.advertise(sensor_data_publisher);
   
   Serial.begin(57600);//57600
   delay(10);
-
 
   LoadCell.begin();
   //LoadCell.setReverseOutput(); //uncomment to turn a negative output value to positive
@@ -53,22 +85,17 @@ void setup() {
     while (1);
   }
   else{
-    LoadCell.setCalFactor(26.13); // user set calibration value (float), initial value 1.0 may be used for this sketch
+    // user set calFactor value (float), raw value is divided by calFactor to 
+    // correct the mass reading, set to 1.0 to read raw value
+    float calFactor = 26.13;
+    LoadCell.setCalFactor(calFactor); 
     Serial.println("Startup is complete");
   }
   while (!LoadCell.update());
   calibrate();
-  float newCalibrationValue = 4.47;
-  /*  Hardcoding calibration value; determined by running the HX711_Calibration_lbs
-   *   arduino script and using the digging replacement motor with a mass of 8.1 lbs,
-   *   at which point the script determined the calibration value. We won't need to continuously
-   *   recalibrate the weight sensors for the robot, so this is allows for a one and done
-   *   calibration.
-   */
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   static boolean newDataReady = 0;
   const int serialPrintInterval = 0; //increase value to slow down serial print activity.
 
@@ -93,19 +120,15 @@ void loop() {
 }
 
 void calibrate(){
-  Serial.println("PENIS");
-  boolean _resume = false;
-  while (_resume == false) {
-    LoadCell.update();
-    LoadCell.tareNoDelay();
-    _resume = true;
-    
-  }
+  //Call functions to prepare for calibration
+  LoadCell.update();
+  LoadCell.tareNoDelay();    //Tare the readings
   LoadCell.refreshDataSet(); //refresh the dataset to be sure that the known mass is measured correct
+
+  //user set newCalibrationValue (float), follow instructions in comments at top of file to determine value
   float newCalibrationValue = 4.47;
   
-  _resume = false;
-  while(_resume == false){
+//Save Calibration value in HX711's EEPROM
 #if defined(ESP8266)|| defined(ESP32)
         EEPROM.begin(512);
 #endif
@@ -114,8 +137,5 @@ void calibrate(){
         EEPROM.commit();
 #endif
         EEPROM.get(calVal_eepromAddress, newCalibrationValue);
-
-        _resume = true;
-  }
  
 }
