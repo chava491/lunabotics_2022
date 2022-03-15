@@ -3,7 +3,8 @@
   
   This arduino script is used to take readings from all of the sensors 
   onboard the robot. This script creates a ROS node and publishes all the
-  sensor readings to the pyduino_reader_node (Subscriber) which is in a python script.
+  sensor readings to the pyduino_reader_node (Subscriber), which is in a python script, 
+  over the /sensor_data topic.
  
   A tutorial explaining how to setup the arduino as a rosserial ROS node can be found at: 
   https://maker.pro/arduino/tutorial/how-to-use-arduino-with-robot-operating-system-ros
