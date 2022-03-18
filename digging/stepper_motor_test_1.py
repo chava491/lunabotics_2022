@@ -16,5 +16,16 @@ print("Current position is {}.".format(position))
  
 new_target = -200 if position > 0 else 200
 print("Setting target position to {}.".format(new_target))
-ticcmd('--exit-safe-start', '--position', str(new_target))
-ticcmd('--resume')
+ticcmd('--exit-safe-start', '-p', str(new_target))
+
+while position != new_target:
+  try:
+    ticcmd('--resume')
+    status = load(ticcmd('-s', '--full'), Loader=Loader)
+    position = status['Current position']
+  except:
+    print("Unable to resume") 
+
+ticcmd('--deenergize')
+
+print("Current position is {}.".format(position))
