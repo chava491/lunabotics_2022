@@ -56,10 +56,10 @@ def key_press(key):
     #
     #-------------------------------------------
     elif k in ['r']:
-        odrv.axis0.controller.input_vel = 20
-
+        odrv0.axis0.controller.input_vel = 20
+        
     elif k in ['l']:
-        odrv.axis1.controller.input_vel = 20
+        odrv0.axis1.controller.input_vel = 20
 
     elif k in ['e']:
         odrv0.axis.encoder
@@ -81,6 +81,9 @@ if __name__ == '__main__':
 
     print("Searching for odrive, this may take a few seconds...\n")
     odrv0 = odrive.find_any()
+
+    odrv0.axis0.controller.config.control_mode = 2 #Velocity control
+    odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
     print("It is time to control the robot!\nThe controls are simple: wasd or the arrow keys move the robot directionally.")
     print("Space will stop the robot in its tracks, and escape will end the control period altogether.")
