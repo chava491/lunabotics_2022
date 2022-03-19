@@ -16,8 +16,6 @@ from pynput import keyboard
 
 if __name__ == '__main__':
 
-    # default speed value
-#     speed = 50
     print("=========================================================================\n")
     print("This script is used to configure the parameters for the locomotion motors\n")
     print("and run calibration sequences\n")
