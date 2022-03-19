@@ -113,18 +113,13 @@ class mainWrapperROS:
         self.label_7 = QtWidgets.QLabel(Dialog)
         self.label_7.setGeometry(QtCore.QRect(260, 145, 55, 16))
         self.label_7.setObjectName("label_7")
-        #
-        # self.label_8 = QtWidgets.QLabel(Dialog)
-        # self.label_8.setGeometry(QtCore.QRect(260, 230, 31, 16))
-        # self.label_8.setObjectName("label_8")
+
         #Depth
         self.label_9 = QtWidgets.QLabel(Dialog)
         self.label_9.setGeometry(QtCore.QRect(260, 225, 55, 16))
         self.label_9.setObjectName("label_9")
         #old linear actuator
-        # self.label_10 = QtWidgets.QLabel(Dialog)
-        # self.label_10.setGeometry(QtCore.QRect(810, 150, 91, 16))
-        # self.label_10.setObjectName("label_10")
+
         #Linear actuator
         self.label_11 = QtWidgets.QLabel(Dialog)
         self.label_11.setGeometry(QtCore.QRect(710, 185, 91, 16))

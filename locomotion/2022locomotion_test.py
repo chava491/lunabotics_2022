@@ -27,6 +27,7 @@ def on_press(key):
             key))
 
     if key in ['w']:
+
         odrv0.axis0.controller.input_vel = -50
         odrv0.axis1.controller.input_vel = 50
 
