@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Script that is used to perform setup and calibration of locomotion motors
+Script that is used to perform setup and calibration of digging motor
 
-@created: Mar. 18, 2022
+@created: Mar. 19, 2022
 """
 
 import odrive
@@ -17,7 +17,7 @@ from pynput import keyboard
 if __name__ == '__main__':
 
     print("=========================================================================")
-    print("This script is used to configure the parameters for the locomotion motors")
+    print("This script is used to configure the parameters for the digging motor")
     print("and run calibration sequences")
     print("=========================================================================")
     print("Searching for odrive, this may take a few seconds...")
@@ -25,20 +25,17 @@ if __name__ == '__main__':
     print("odrive found...")
 
     #Setup parameters for motors
-    current_lim = 4
+    current_lim = 30
     odrv0.axis0.motor.config.current_lim = current_lim
-    odrv0.axis1.motor.config.current_lim = current_lim
     print("Set current lim: " + str(current_lim))
 
     #Velocity limit in turns/s
-    vel_limit = 67
+    vel_limit = 16.67
     odrv0.axis0.controller.config.vel_limit = vel_limit
-    odrv0.axis1.controller.config.vel_limit = vel_limit
     print("Set vel limit: " + str(vel_limit))
 
-    calibration_current = 1
+    calibration_current = 10
     odrv0.axis0.motor.config.calibration_current = calibration_current
-    odrv0.axis1.motor.config.calibration_current = calibration_current
     print("Set calibration current: " + str(calibration_current))
 
     enable_brake_resistor = 1
@@ -56,28 +53,23 @@ if __name__ == '__main__':
     #Num of poles divided by 2
     pole_pairs = 4
     odrv0.axis0.motor.config.pole_pairs = pole_pairs
-    odrv0.axis1.motor.config.pole_pairs = pole_pairs
     print("Set pole_pairs: " + str(pole_pairs))
 
     #set to 8.27 / (motorKV+ "")
-    torque_constant = 8.27 / 4.0
+    torque_constant = 8.27 / 9.03
     odrv0.axis0.motor.config.torque_constant = torque_constant
-    odrv0.axis1.motor.config.torque_constant = torque_constant
     print("Set torque_constant: " + str(torque_constant))
 
     motor_type = MOTOR_TYPE_HIGH_CURRENT
-    odrv0.axis0.motor.config.motor_type = motor_type
     odrv0.axis0.motor.config.motor_type = motor_type
     print("Set motor_type: MOTOR_TYPE_HIGH_CURRENT")
 
     #Counts per rev. Set to 6*(pole_pairs) for Hall Sensor feedback
     cpr = 6 * pole_pairs
     odrv0.axis0.encoder.config.cpr = cpr
-    odrv0.axis1.encoder.config.cpr = cpr
     print("Set cpr: " + str(cpr))
 
     odrv0.axis0.encoder.config.mode = ENCODER_MODE_HALL
-    odrv0.axis1.encoder.config.mode = ENCODER_MODE_HALL
     print("Set encoder mode: ENCODER_MODE_HALL")
 
     odrv0.config.gpio9_mode = GPIO_MODE_DIGITAL
@@ -89,11 +81,9 @@ if __name__ == '__main__':
     print("Set gpio9-14 modes to GPIO_MODE_DIGITAL")
 
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-    odrv0.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     print("Set state: AXIS_STATE_CLOSED_LOOP_CONTROL")
 
     odrv0.axis0.controller.config.control_mode = 2 #Velocity control
-    odrv0.axis1.controller.config.control_mode = 2 #Velocity control
     print("Set control mode: VELOCITY ")
 
     print("Saving configuration to odrive...")
@@ -118,11 +108,6 @@ if __name__ == '__main__':
     time.sleep(calib_time)
     print("done...")
 
-    print("axis1: Performing AXIS_STATE_MOTOR_CALIBRATION")
-    odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
-    time.sleep(calib_time)
-    print("done...")
-
     #Errors should be 0
     print("===================================================")
     print("===================================================")
@@ -132,23 +117,13 @@ if __name__ == '__main__':
     print("axis0.motor.config.phase_inductance: " + str(odrv0.axis0.motor.config.phase_inductance))
     print("axis0.motor.config.phase_resistance: " + str(odrv0.axis0.motor.config.phase_resistance))
     print("===================================================")
-    print("axis1.motor.error: " + str(odrv0.axis1.motor.error))
-    print("axis1.motor.config.phase_inductance: " + str(odrv0.axis1.motor.config.phase_inductance))
-    print("axis1.motor.config.phase_resistance: " + str(odrv0.axis1.motor.config.phase_resistance))
-    print("===================================================")
     print("===================================================")
 
     #These lines assume no errors occured
     odrv0.axis0.motor.config.pre_calibrated = True
-    odrv0.axis1.motor.config.pre_calibrated = True
 
     print("axis0: Performing AXIS_STATE_ENCODER_HALL_POLARITY_CALIBRATION")
     odrv0.axis0.requested_state = AXIS_STATE_ENCODER_HALL_POLARITY_CALIBRATION
-    time.sleep(calib_time)
-    print("done...")
-
-    print("axis1: Performing AXIS_STATE_ENCODER_HALL_POLARITY_CALIBRATION")
-    odrv0.axis1.requested_state = AXIS_STATE_ENCODER_HALL_POLARITY_CALIBRATION
     time.sleep(calib_time)
     print("done...")
 
@@ -157,17 +132,11 @@ if __name__ == '__main__':
     print("Calibration results (All Errors Should be 0):")
     print("===================================================")
     print("axis0.encoder.error: " + str(odrv0.axis0.encoder.error))
-    print("axis1.encoder.error: " + str(odrv0.axis1.encoder.error))
     print("===================================================")
     print("===================================================")
 
     print("axis0: Performing AXIS_STATE_ENCODER_OFFSET_CALIBRATION")
     odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
-    time.sleep(calib_time)
-    print("done...")
-
-    print("axis1: Performing AXIS_STATE_ENCODER_OFFSET_CALIBRATION")
-    odrv0.axis1.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
     time.sleep(calib_time)
     print("done...")
 
@@ -179,14 +148,10 @@ if __name__ == '__main__':
     print("axis0.encoder.error: " + str(odrv0.axis0.encoder.error))
     print("axis0.encoder.config.phase_offset_float: " + str(odrv0.axis0.encoder.config.phase_offset_float))
     print("===================================================")
-    print("axis1.encoder.error: " + str(odrv0.axis1.encoder.error))
-    print("axis1.encoder.config.phase_offset_float: " + str(odrv0.axis1.encoder.config.phase_offset_float))
-    print("===================================================")
     print("===================================================")
 
     #These lines assume no errors occured
     odrv0.axis0.encoder.config.pre_calibrated = True
-    odrv0.axis1.encoder.config.pre_calibrated = True
 
     print("Saving configuration to odrive...")
     print("Rebooting...")
