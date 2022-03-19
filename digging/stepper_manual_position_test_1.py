@@ -80,6 +80,9 @@ if __name__ == '__main__':
     #status = load(ticcmd('-s', '--full'), Loader=Loader)
     #position = status['Current position']
 
+    # Reset the 'current position' of the motor
+    ticcmd('--reset')
+
     print("It is time to control the robot!\nThe controls are simple: wasd or the arrow keys move the robot directionally.")
     print("Space will stop the robot in its tracks, and escape will end the control period altogether.")
     

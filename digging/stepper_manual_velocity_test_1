@@ -1,5 +1,9 @@
 """
-Comment here
+Created on 3-19-2022
+By: Antonio Carrasco 
+
+This script allows you to control the direction of the motor's rotation by pressing and holding the appropiate keys.
+
 
 """
 import subprocess
@@ -49,6 +53,9 @@ if __name__ == '__main__':
 
     #status = load(ticcmd('-s', '--full'), Loader=Loader)
     #position = status['Current position']
+
+    # Reset the 'current position' of the motor
+    ticcmd('--reset')
 
     print("Control the direction of the motors rotation by pressing")
     print("'a' or 'd' on the keyboard. (Press and hold)")
