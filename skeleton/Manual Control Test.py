@@ -91,7 +91,6 @@ def on_release(key):
         odrv0.axis0.controller.input_vel = 0
 
     elif key == keyboard.Key.up:
-
         dump.actuator_extend()
 
     elif key.char in ['w']:
@@ -124,6 +123,7 @@ def ticcmd(*args):
 
 if __name__ == '__main__':
     dump = dumping.Dumping()
+
     print("Searching for odrive, this may take a few seconds...\n")
 
     odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
