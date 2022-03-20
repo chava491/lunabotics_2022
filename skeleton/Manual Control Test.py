@@ -53,12 +53,17 @@ def on_press(key):
         elif key.char in ['n']:
             odrv0.axis0.controller.input_vel = -16
         #Increase Pitch
-        elif key.char in ['l']:
+        elif key.char in ['h']:
             ticcmd('--resume')
             new_target_vel = 500000
             ticcmd('--exit-safe-start', '-y', str(new_target_vel))
         #Decrease Pitch
         elif key.char in ['k']:
+            ticcmd('--resume')
+            new_target_vel = -500000
+            ticcmd('--exit-safe-start', '-y', str(new_target_vel))
+        #Stop Pitch
+        elif key.char in ['j']:
             ticcmd('--resume')
             new_target_vel = -500000
             ticcmd('--exit-safe-start', '-y', str(new_target_vel))
@@ -104,14 +109,6 @@ def on_release(key):
     elif key.char in ['d']:
         odrv1.axis0.controller.input_vel = 0
         odrv1.axis1.controller.input_vel = 0
-
-    elif key.char in ['l']:
-        new_target_vel = 0
-        ticcmd('--exit-safe-start', '-y', str(new_target_vel))
-
-    elif key.char in ['k']:
-        new_target_vel = 0
-        ticcmd('--exit-safe-start', '-y', str(new_target_vel))
 
     # -------------------------------------------
     # Individual motor key
