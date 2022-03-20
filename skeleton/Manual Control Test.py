@@ -24,11 +24,11 @@ except ImportError:
 
 
 """
-This function reads the key.charboard input from the user and moves the robot in the according
+This function reads the keyboard input from the user and moves the robot in the according way
 """
 def on_press(key):
     try:
-        print('alphanumeric key.char {0} pressed'.format(key.char))
+        #print('alphanumeric key.char {0} pressed'.format(key.char))
 
         #Loco Forward
         if key.char in ['w']:
@@ -52,7 +52,7 @@ def on_press(key):
         #Reverse Mining
         elif key.char in ['n']:
             odrv0.axis0.controller.input_vel = -16
-        #Increase Pitch
+        #Increase pitch
         elif key.char in ['h']:
             ticcmd('--resume')
             new_target_vel = 500000
@@ -65,7 +65,7 @@ def on_press(key):
         #Stop Pitch
         elif key.char in ['j']:
             ticcmd('--resume')
-            new_target_vel = -500000
+            new_target_vel = 0
             ticcmd('--exit-safe-start', '-y', str(new_target_vel))
 
         #-------------------------------------------
@@ -82,7 +82,7 @@ def on_press(key):
         print('special key.char {0} pressed'.format(key))
 
 def on_release(key):
-    print('{0} released'.format(key))
+    #print('{0} released'.format(key))
     if key == keyboard.Key.esc:
         ticcmd('--deenergize')
         return False
@@ -136,16 +136,19 @@ if __name__ == '__main__':
     odrv1.axis0.controller.config.control_mode = 2 #Velocity control
     odrv1.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv1.axis1.controller.config.control_mode = 2 #Velocity control
-    odrv1.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+    odrv1.axis1.requested_state = AXIS_SPitchTATE_CLOSED_LOOP_CONTROL
     #Reset roboclaw zero position
     ticcmd('--reset')
 
-    print("It is time to control the robot!\nThe controls are simple: wasd or the arrow key.chars move the robot directionally.")
+    print("It is time to control the robot! The controls are simple: ")
+    print("--LOCOMOTION: 'wasd' (press and hold)")
+    print("--PITCH: 'h' (up), 'j' (stop), 'k' (down)")
     print("Space will stop the robot in its tracks, and escape will end the control period altogether.")
-    # Collect events until released
+    # Collects all button press events until esc is hit
     with keyboard.Listener(on_press=on_press,on_release=on_release) as listener:
         listener.join()
 
+    #Set All Odrive states to idle
     odrv0.axis0.requested_state = AXIS_STATE_IDLE
     odrv1.axis0.requested_state = AXIS_STATE_IDLE
     odrv1.axis1.requested_state = AXIS_STATE_IDLE
