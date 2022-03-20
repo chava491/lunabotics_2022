@@ -14,16 +14,19 @@ import math
 import py_compile
 from pynput import keyboard
 
+import dumping
+
 """
 This function reads the key.charboard input from the user and moves the robot in the according
 """
 def on_press(key):
     try:
         print('alphanumeric key.char {0} pressed'.format(key.char))
+        #Loco Forward
         if key.char in ['w']:
             odrv1.axis0.controller.input_vel = -50
             odrv1.axis1.controller.input_vel = 50
-            #Loco Left
+        #Loco Left
         elif key.char in ['a']:
             odrv1.axis0.controller.input_vel = 50
             odrv1.axis1.controller.input_vel = 50
@@ -44,9 +47,10 @@ def on_press(key):
         #-------------------------------------------
         # Individual motor key
         #-------------------------------------------
+        #Right motor
         elif key.char in ['r']:
             odrv1.axis0.controller.input_vel = 20
-            
+        #Left motor    
         elif key.char in ['l']:
             odrv1.axis1.controller.input_vel = 20
 
@@ -60,6 +64,10 @@ def on_release(key):
 
     elif key == keyboard.Key.space:
         odrv0.axis0.controller.input_vel = 0
+
+    elif key == keyboard.Key.up:
+
+        dump.actuator_extend()
 
     elif key.char in ['w']:
         odrv1.axis0.controller.input_vel = 0
@@ -87,11 +95,13 @@ def on_release(key):
 
 
 if __name__ == '__main__':
-
+    dump = dumping.Dumping()
     print("Searching for odrive, this may take a few seconds...\n")
     
     odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
     odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
+
+    dump.enable_roboclaw()
 
     odrv0.axis0.controller.config.control_mode = 2 #Velocity control
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL

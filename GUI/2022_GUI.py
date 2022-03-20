@@ -122,7 +122,7 @@ class mainWrapperROS:
 
         #Linear actuator
         self.label_11 = QtWidgets.QLabel(Dialog)
-        self.label_11.setGeometry(QtCore.QRect(710, 185, 91, 16))
+        self.label_11.setGeometry(QtCore.QRect(690, 185, 91, 16))
         self.label_11.setObjectName("label_11")
         #Pitch
         self.label_12 = QtWidgets.QLabel(Dialog)
