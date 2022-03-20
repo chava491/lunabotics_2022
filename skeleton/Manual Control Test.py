@@ -53,7 +53,7 @@ def on_press(key):
         elif key.char in ['n']:
             odrv0.axis0.controller.input_vel = -16
         #Increase Pitch
-        elif key.char in ['l']:
+        elif key.char in ['j']:
             ticcmd('--resume')
             new_target_vel = 500000
             ticcmd('--exit-safe-start', '-y', str(new_target_vel))
@@ -72,6 +72,9 @@ def on_press(key):
         #Left motor
         elif key.char in ['l']:
             odrv1.axis1.controller.input_vel = 20
+
+        elif key.char in ['p']:
+            dump.Dumping.actuator_extend()
 
     except AttributeError:
         print('special key.char {0} pressed'.format(key))
@@ -104,7 +107,7 @@ def on_release(key):
         odrv1.axis0.controller.input_vel = 0
         odrv1.axis1.controller.input_vel = 0
 
-    elif key.char in ['l']:
+    elif key.char in ['j']:
         new_target_vel = 0
         ticcmd('--exit-safe-start', '-y', str(new_target_vel))
 
