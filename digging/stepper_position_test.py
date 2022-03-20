@@ -8,12 +8,7 @@ This script tests the functionality of the stepper motor velocity command.
 """
 import subprocess
 import time
-from yaml import load, dump
-
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
+import yaml
 
 
 def ticcmd(*args):
@@ -33,6 +28,11 @@ if __name__ == '__main__':
     new_target_pos = 200
     ticcmd('--exit-safe-start', '-p', str(new_target_pos))
     time.sleep(3)
+
+    #print current position
+    status = yaml.safe_load(ticcmd('-s', '--full'))
+    curr_pos = status['Current position']
+    print(curr_pos)
 
     #Sets a position target in units of steps
     new_target_pos = -200
