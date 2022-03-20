@@ -9,6 +9,7 @@ Attempting to include key.charboard operations to the motor's output, allowinf d
 
 import odrive
 from odrive.enums import *
+import serial
 import time
 import math
 import py_compile
@@ -63,6 +64,14 @@ def on_press(key):
             new_target_vel = -500000
             ticcmd('--exit-safe-start', '-y', str(new_target_vel))
 
+        #Extend Linear Actuator
+        elif key.char in ['t']:
+            arduino.write(bytes('1', 'utf-8'))
+        
+        #Retract Linear Actuator
+        elif key.char in ['y']:
+            arduino.write(bytes('2', 'utf-8'))
+
         #-------------------------------------------
         # Individual motor key
         #-------------------------------------------
@@ -83,6 +92,7 @@ def on_release(key):
     print('{0} released'.format(key))
     if key == keyboard.Key.esc:
         ticcmd('--deenergize')
+        arduino.write(bytes('3', 'utf-8'))
         return False
 
     elif key == keyboard.Key.space:
@@ -134,8 +144,10 @@ if __name__ == '__main__':
 
     odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
     odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
-    #Start Roboclaw
-    dump.enable_roboclaw()
+
+    #Start serial object to control Linear Actuator
+    arduino = serial.Serial(port='/dev/ttyACM2', baudrate=115200, timeout=.1)
+
     #Set Odrive state and control modes
     odrv0.axis0.controller.config.control_mode = 2 #Velocity control
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
