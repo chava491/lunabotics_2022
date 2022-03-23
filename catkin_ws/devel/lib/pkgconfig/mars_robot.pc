@@ -1,0 +1,8 @@
+prefix=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel
+
+Name: mars_robot
+Description: Description of mars_robot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

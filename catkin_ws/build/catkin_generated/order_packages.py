@@ -2,4 +2,4 @@
 source_root_dir = '/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src'
 whitelisted_packages = ''.split(';') if '' != '' else []
 blacklisted_packages = ''.split(';') if '' != '' else []
-underlay_workspaces = '/home/abe/catkin_ws/devel;/opt/ros/melodic'.split(';') if '/home/abe/catkin_ws/devel;/opt/ros/melodic' != '' else []
+underlay_workspaces = '/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel;/home/abe/catkin_ws/devel;/opt/ros/melodic'.split(';') if '/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel;/home/abe/catkin_ws/devel;/opt/ros/melodic' != '' else []

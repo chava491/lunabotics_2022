@@ -131,6 +131,10 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/gtest/cmake_install.cmake")
+  include("/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot/cmake_install.cmake")
+  include("/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_driver/cmake_install.cmake")
+  include("/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_launch/cmake_install.cmake")
+  include("/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/cmake_install.cmake")
 
 endif()
 

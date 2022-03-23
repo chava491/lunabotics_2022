@@ -336,6 +336,30 @@ gtest_hide_internal_symbols:BOOL=OFF
 //Dependencies for the target
 gtest_main_LIB_DEPENDS:STATIC=general;-lpthread;general;gtest;
 
+//Value Computed by CMake
+mars_robot_BINARY_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot
+
+//Value Computed by CMake
+mars_robot_SOURCE_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot
+
+//Value Computed by CMake
+mars_robot_driver_BINARY_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_driver
+
+//Value Computed by CMake
+mars_robot_driver_SOURCE_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_driver
+
+//Value Computed by CMake
+mars_robot_launch_BINARY_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_launch
+
+//Value Computed by CMake
+mars_robot_launch_SOURCE_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_launch
+
+//Value Computed by CMake
+mars_robot_msgs_BINARY_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs
+
+//Value Computed by CMake
+mars_robot_msgs_SOURCE_DIR:STATIC=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs
+
 
 ########################
 # INTERNAL cache entries
@@ -446,7 +470,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
