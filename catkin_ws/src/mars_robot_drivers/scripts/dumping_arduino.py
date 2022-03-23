@@ -1,9 +1,17 @@
 """
 This file houses all of the dumping functionality
 
+For this script, simple enum commands are sent over the serial port /dev/ttyACM#.
+Then these commands are handled in the arduino code and the corresponding relays are opened/closed.
+The commands are as follows:
+    1 - extend
+    2 - retract
+    3 - stop
+
 @created: 3-22-2022
 """
 
+import serial
 import time
 from roboclaw import Roboclaw
 
@@ -15,10 +23,12 @@ class Dumping:
     # Establish the roboclaw connection for the linear actuator
     #---------------------------------------------------------------------
     def __init__(self):
+        self.arduino_port = '/dev/ttyACM2'
+
         try:
-            print("Searching for dumping roboclaw, this may take a few seconds...")
+            print("Searching for arduino roboclaw, this may take a few seconds...")
             #self.enable_roboclaw()
-            self.roboclaw = Roboclaw('/dev/ttyACM0', 38400)
+            self.arduino = serial.Serial(port=self.arduino_port, baudrate=115200, timeout=.1)
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")
         except:
@@ -28,22 +38,19 @@ class Dumping:
     # Extend the linear actuator forward for its full length
     #--------------------------------------------------------------------
     def actuator_extend(self):
-        if self.roboclaw != None:
-            self.roboclaw.ForwardM1(128, 127)
+        self.arduino.write(bytes('1', 'utf-8'))
 
     #--------------------------------------------------------------------
     # Fully retract the linear actuator
     #--------------------------------------------------------------------
     def actuator_retract(self):
-        if self.roboclaw != None:
-            self.roboclaw.BackwardM1(128, 127)
+        self.arduino.write(bytes('2', 'utf-8'))
 
     #--------------------------------------------------------------------
     # Stop the linear actuator
     #--------------------------------------------------------------------
     def actuator_stop(self):
-        if self.roboclaw != None:
-            self.roboclaw.ForwardM1(128, 0)
+        self.arduino.write(bytes('3', 'utf-8'))
 
     #--------------------------------------------------------------------
     # A full dump algorithm
@@ -57,20 +64,3 @@ class Dumping:
         time.sleep(4)
         self.actuator_retract()
         time.sleep(12)
-
-    #--------------------------------------------------------------------
-    # Enables the roboclaw to communicate on the ACM1 port
-    #--------------------------------------------------------------------
-    def enable_roboclaw(self):
-        self.roboclaw = Roboclaw("/dev/ttyACM0", 38400)
-        self.roboclaw.Open()
-
-    #--------------------------------------------------------------------
-    # Disables the roboclaw to communicate on the ACM1 port
-    #--------------------------------------------------------------------
-    def disable_roboclaw(self):
-        self.actuator_stop()
-        
-        time.sleep(0.1)
-
-        self.roboclaw.Close()
