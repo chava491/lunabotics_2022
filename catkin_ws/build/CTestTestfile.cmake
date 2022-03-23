@@ -6,6 +6,6 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("mars_robot")
-subdirs("mars_robot_driver")
+subdirs("mars_robot_drivers")
 subdirs("mars_robot_launch")
 subdirs("mars_robot_msgs")

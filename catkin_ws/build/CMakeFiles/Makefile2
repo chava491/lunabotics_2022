@@ -455,22 +455,22 @@ clean: mars_robot/CMakeFiles/_catkin_empty_exported_target.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory mars_robot_driver
+# Directory level rules for directory mars_robot_drivers
 
 # Convenience name for "all" pass in the directory.
-mars_robot_driver/all:
+mars_robot_drivers/all:
 
-.PHONY : mars_robot_driver/all
+.PHONY : mars_robot_drivers/all
 
 # Convenience name for "clean" pass in the directory.
-mars_robot_driver/clean:
+mars_robot_drivers/clean:
 
-.PHONY : mars_robot_driver/clean
+.PHONY : mars_robot_drivers/clean
 
 # Convenience name for "preinstall" pass in the directory.
-mars_robot_driver/preinstall:
+mars_robot_drivers/preinstall:
 
-.PHONY : mars_robot_driver/preinstall
+.PHONY : mars_robot_drivers/preinstall
 
 #=============================================================================
 # Directory level rules for directory mars_robot_launch

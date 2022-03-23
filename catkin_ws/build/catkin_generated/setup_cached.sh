@@ -7,4 +7,5 @@
 # new environment variables
 
 # modified environment variables
+export PKG_CONFIG_PATH="/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build'
