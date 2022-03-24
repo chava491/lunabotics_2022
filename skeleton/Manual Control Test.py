@@ -120,7 +120,6 @@ def on_release(key):
     elif key.char in ['j']:
         new_target_vel = 0
         ticcmd('--exit-safe-start', '-y', str(new_target_vel))
-
     elif key.char in ['k']:
         new_target_vel = 0
         ticcmd('--exit-safe-start', '-y', str(new_target_vel))
@@ -142,8 +141,8 @@ if __name__ == '__main__':
 
     print("Searching for odrive, this may take a few seconds...\n")
 
-    odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
     odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
+    odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
 
     #Start serial object to control Linear Actuator
     arduino = serial.Serial(port='/dev/ttyACM2', baudrate=115200, timeout=.1)
