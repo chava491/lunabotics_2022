@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This file houses all of the digging functionality
 
@@ -39,6 +40,11 @@ class Digging:
     #---------------------------------------------------------------------
     def ticcmd(self, *args):
         return subprocess.check_output(['ticcmd'] + list(args))
+
+    def digging_motors_disengage(self):
+        self.auger_motor_disengage()
+        self.depth_motor_disengage()
+        self.pitch_motor_disengage()
 
     ##====================================================================
     ##      AUGER MOTOR FUNCTIONS:
@@ -111,7 +117,7 @@ class Digging:
     # Dumps all errors from the digging odrive
     #---------------------------------------------------------------------
     def dig_dump_errors(self):
-        dump_errors(odrv0, True)
+        self.odrv0.dump_errors(self.odrv0, True)
 
     ##====================================================================
     ##      DEPTH MOTOR FUNCTIONS:
@@ -192,7 +198,7 @@ class Digging:
     #---------------------------------------------------------------------
     def pitch_motor_disengage(self):
         self.pitch_motor_stop()
-        self.ticcmd('--deenergize')
+        self.ticcmd('-d', self.pitch_serial_num, '--deenergize')
 
     #---------------------------------------------------------------------
     # Returns: the position estimation of the digging motor [microsteps]

@@ -143,6 +143,7 @@ if __name__ == '__main__':
 
     odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
     odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
+    print("Odrives found...\n")
 
     #Start serial object to control Linear Actuator
     arduino = serial.Serial(port='/dev/ttyACM2', baudrate=115200, timeout=.1)

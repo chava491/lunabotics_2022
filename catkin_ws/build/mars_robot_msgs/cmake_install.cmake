@@ -1,8 +1,8 @@
-# Install script for directory: /home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs
+# Install script for directory: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgs.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgs.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mars_robot_msgs/cmake" TYPE FILE FILES
-    "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgsConfig.cmake"
-    "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgsConfig-version.cmake"
+    "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgsConfig.cmake"
+    "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/catkin_generated/installspace/mars_robot_msgsConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mars_robot_msgs" TYPE FILE FILES "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mars_robot_msgs" TYPE FILE FILES "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/package.xml")
 endif()
 

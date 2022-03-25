@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

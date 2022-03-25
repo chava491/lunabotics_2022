@@ -1,0 +1,8 @@
+prefix=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install
+
+Name: mars_robot_teleop
+Description: Description of mars_robot_teleop
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
