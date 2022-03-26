@@ -15,26 +15,27 @@ import sys, select, termios, tty
 instructions = """
 Reading from the keyboard  and Publishing to Twist!
 ---------------------------
-General:
-    space:  disengage all motors
 locomotion:
+    space: stop loco motors
         w    
    a    s    d    
+
 Auger motor:
-    n:      auger on
-    m:      auger stop
-    ,:      auger reverse
+    m:      auger on
+    ,:      auger stop
+    .:      auger reverse
 Pitch motor:
-    h:      pitch increase
-    j:      pitch stop
-    k:      pitch decrease
+    j:      pitch increase
+    k:      pitch stop
+    l:      pitch decrease
 Depth motor:
     u:      depth decrease
     i:      depth stop
     o:      depth increase
 Dumping actuator:
-    t:      extend
-    y:      retract
+    7:      extend
+    8:      stop
+    9:      retract
 
 
 CTRL-C to quit
@@ -45,18 +46,20 @@ keyBindings = {
         'a':1,  #loco left
         's':2,  #loco backward
         'd':3,  #loco right
-        'n':4,  #auger dig on 
-        'm':5,  #auger stop 
-        ',':6,  #auger dig reverse
-        'j':7,  #increase pitch
-        'k':8,  #stop pitch
-        'l':9,  #decrease pitch
-        'u':10, #decrease depth
-        'i':11, #stop depth
-        'o':12, #increase depth
-        't':13, #extend dumpa
-        'y':14, #retract dumpa
-        ' ':15, #disengage all motors
+        ' ':4,  #loco stop
+        'm':5,  #auger dig on 
+        ',':6,  #auger stop 
+        '.':7,  #auger dig reverse
+        'j':8,  #increase pitch
+        'k':9,  #stop pitch
+        'l':10,  #decrease pitch
+        'u':11, #decrease depth
+        'i':12, #stop depth
+        'o':13, #increase depth
+        '7':14, #extend dumpa
+        '8':15, #stop dumpa
+        '9':16, #retract dumpa
+        
     }
 
 class PublishThread(threading.Thread):

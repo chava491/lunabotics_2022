@@ -2,7 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 The second locomotion key file for keying our robot's locomotion.
-Attempting to include key.charboard operations to the motor's output, allowinf direct control over motion.
+Attempting to include keyboard operations to the motor's output, allowing direct control over motion.
+
+this file assumes the following are connected only:
+odrv0
+odrv1
+linear actuator (arduino + relays)
+depth stepper
 
 @created: Mar 14, 2022
 """

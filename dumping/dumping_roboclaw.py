@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 This file houses all of the dumping functionality
 
@@ -18,7 +19,7 @@ class Dumping:
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
             #self.enable_roboclaw()
-            self.roboclaw = Roboclaw('/dev/ttyACM0', 38400)
+            self.roboclaw = Roboclaw('/dev/ttyACM2', 38400)
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")
         except:
@@ -50,27 +51,21 @@ class Dumping:
     #--------------------------------------------------------------------
     def full_dump(self):
         self.actuator_extend()
-        time.sleep(12)
-        self.stepper_forward()
-        time.sleep(4)
-        self.stepper_backward()
-        time.sleep(4)
+        time.sleep(10)
         self.actuator_retract()
-        time.sleep(12)
+        time.sleep(10)
 
     #--------------------------------------------------------------------
-    # Enables the roboclaw to communicate on the ACM1 port
+    # Enables the roboclaw to communicate on the ACM# port
     #--------------------------------------------------------------------
     def enable_roboclaw(self):
-        self.roboclaw = Roboclaw("/dev/ttyACM0", 38400)
+        self.roboclaw = Roboclaw("/dev/ttyACM2", 38400)
         self.roboclaw.Open()
 
     #--------------------------------------------------------------------
-    # Disables the roboclaw to communicate on the ACM1 port
+    # Disables the roboclaw to communicate on the ACM# port
     #--------------------------------------------------------------------
     def disable_roboclaw(self):
         self.actuator_stop()
         
         time.sleep(0.1)
-
-        self.roboclaw.Close()

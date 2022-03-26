@@ -20,7 +20,7 @@ class Digging:
     #---------------------------------------------------------------------
     def __init__(self):
         self.depth_serial_num = "00320097" #Depth tic36v4 stepper driver serial number
-        self.pitch_serial_num = "00320097" #<---[CHENGE HERE] Pitch tic36v4 stepper driver serial number
+        self.pitch_serial_num = "00320100" #Pitch tic36v4 stepper driver serial number
         self.auger_serial_num = "207939834D4D" #Digging Odrive serial number
 
         try:
@@ -31,6 +31,7 @@ class Digging:
             print("Unable to find digging odrive")
 
         self.auger_motor_engage()
+        self.pitch_motor_engage()
         self.depth_motor_engage()
         
     #---------------------------------------------------------------------

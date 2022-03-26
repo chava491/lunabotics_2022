@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 This file houses all of the locomotion functionality.
 
@@ -158,4 +159,4 @@ class Locomotion:
     # Dumps all errors from the locomotion odrive
     #--------------------------------------------------------------------
     def loco_dump_errors(self):
-        dump_errors(odrv1, True)
+        dump_errors(self.odrv1, True)
