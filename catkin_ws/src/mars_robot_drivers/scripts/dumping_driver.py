@@ -18,7 +18,7 @@ class Dumping:
     def __init__(self):
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
-            self.port = '/dev/ttyACM3'
+            self.port = '/dev/ttyACM1'
             self.roboclaw = Roboclaw(self.port, 38400)
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")

@@ -66,10 +66,10 @@ void loop() {
   if (newDataReady) {
     if (millis() > t + serialPrintInterval) {
       float i = LoadCell.getData();             //in grams
-      i = i/1000/2.205;                         //convert to lbs
+      //i = i/1000/2.205;                         //converts to lbs
       Serial.print("Load_cell output val: ");
       Serial.print(i);
-      Serial.println(" lbs");
+      Serial.println(" g");
       newDataReady = 0;
       t = millis();
     }
@@ -113,7 +113,7 @@ void calibrate() {
   }
 
   Serial.println("Now, place your known mass on the loadcell.");
-  Serial.println("Then send the weight of this mass (i.e. 10.0 lbs) from serial monitor.");
+  Serial.println("Then send the weight of this mass in grams (i.e. 100 g) from serial monitor.");
 
   float known_mass = 0;
   _resume = false;
@@ -130,7 +130,7 @@ void calibrate() {
   }
   
   LoadCell.refreshDataSet(); //refresh the dataset to be sure that the known mass is measured correct
-  float newCalibrationValue = LoadCell.getNewCalibration(known_mass*1000*2.205); //convert to grams and get the new calibration value
+  float newCalibrationValue = LoadCell.getNewCalibration(known_mass); //use known_mass*1000*2.205 (if input is in lbs)
 
   Serial.print("New calibration value has been set to: ");
   Serial.print(newCalibrationValue);

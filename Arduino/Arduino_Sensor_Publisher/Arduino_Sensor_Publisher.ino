@@ -88,7 +88,7 @@ void setup() {
   else{
     // user set calFactor value (float), raw value is divided by calFactor to 
     // correct the mass reading, set to 1.0 to read raw value
-    float calFactor = 26.13;
+    float calFactor = -105.28;
     LoadCell.setCalFactor(calFactor); 
     Serial.println("Startup is complete");
   }
@@ -127,7 +127,7 @@ void calibrate(){
   LoadCell.refreshDataSet(); //refresh the dataset to be sure that the known mass is measured correct
 
   //user set newCalibrationValue (float), follow instructions in comments at top of file to determine value
-  float newCalibrationValue = 4.47;
+  float newCalibrationValue = -105.20;
   
 //Save Calibration value in HX711's EEPROM
 #if defined(ESP8266)|| defined(ESP32)

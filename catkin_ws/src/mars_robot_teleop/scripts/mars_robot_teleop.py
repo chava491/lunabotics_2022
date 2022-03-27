@@ -59,7 +59,6 @@ keyBindings = {
         '7':14, #extend dumpa
         '8':15, #stop dumpa
         '9':16, #retract dumpa
-        
     }
 
 class PublishThread(threading.Thread):
