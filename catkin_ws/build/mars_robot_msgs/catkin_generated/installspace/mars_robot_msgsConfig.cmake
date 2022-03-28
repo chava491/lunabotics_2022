@@ -67,14 +67,14 @@ set(mars_robot_msgs_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(mars_robot_msgs_SOURCE_PREFIX /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs)
-  set(mars_robot_msgs_DEVEL_PREFIX /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel)
+  set(mars_robot_msgs_SOURCE_PREFIX /home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs)
+  set(mars_robot_msgs_DEVEL_PREFIX /home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel)
   set(mars_robot_msgs_INSTALL_PREFIX "")
   set(mars_robot_msgs_PREFIX ${mars_robot_msgs_DEVEL_PREFIX})
 else()
   set(mars_robot_msgs_SOURCE_PREFIX "")
   set(mars_robot_msgs_DEVEL_PREFIX "")
-  set(mars_robot_msgs_INSTALL_PREFIX /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install)
+  set(mars_robot_msgs_INSTALL_PREFIX /home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install)
   set(mars_robot_msgs_PREFIX ${mars_robot_msgs_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install/lib;/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install/lib;/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

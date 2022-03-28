@@ -2,6 +2,7 @@
 
 import rospy
 from std_msgs.msg import Int32
+from std_msgs.msg import String
 
 from dumping_driver import Dumping
 
@@ -12,19 +13,18 @@ class dumpingWrapperROS:
 
         self.opcode = -1
 
-        rospy.Subscriber("main_manual", Int32, self.callback_main)
+        rospy.Subscriber("main_manual", String, self.callback_main)
         rospy.Subscriber("emergency_stop", Int32, self.callback_stop)
     
     def callback_main(self, msg):
         self.opcode = msg.data
 
-        if self.opcode >= 14 and self.opcode <= 16:
-            if self.opcode == 14:
-                self.dumping.actuator_extend()
-            if self.opcode == 15:
-                self.dumping.actuator_stop()
-            if self.opcode == 16:
-                self.dumping.actuator_retract()
+        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key'):
+            self.dumping.actuator_extend()
+        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key'):
+            self.dumping.actuator_stop()
+        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key'):
+            self.dumping.actuator_retract()
 
     def callback_stop(self, msg):
         self.opcode = msg.data

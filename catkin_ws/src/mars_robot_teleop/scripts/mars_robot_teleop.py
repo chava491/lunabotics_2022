@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+This script is used to take readings from keyboard button pushes and publish them for manual control
+"""
+
 from __future__ import print_function
 
 import threading
@@ -8,63 +12,44 @@ import roslib; roslib.load_manifest('teleop_twist_keyboard')
 import rospy
 
 from geometry_msgs.msg import Twist
-from std_msgs.msg import Int32
+from std_msgs.msg import String
 
 import sys, select, termios, tty
 
-instructions = """
-Reading from the keyboard  and Publishing to Twist!
----------------------------
-locomotion:
-    space: stop loco motors
-        w    
-   a    s    d    
+instructions = '---------------------------------------------------------\n' \
+    'Reading from the keyboard and Publishing to /main_manual!\n' \
+    'Use the following keys to control the robot:\n' \
+    '---------------------------------------------------------\n' \
+    'locomotion: \n' \
+        '\tforward/backward & right/left:\n' \
+        '\t\t\t' + str(rospy.get_param('/mars_robot/manual_control_keys/loco_forward_key')) + '\n' +\
+        '\t\t' + str(rospy.get_param('/mars_robot/manual_control_keys/loco_left_key')) + \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/loco_backward_key')) + \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/loco_right_key')) + '\n' +\
+        '\tspace: stop loco motors\n' \
+    'Auger motor:\n'    \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_dig_key')) + ':      auger on\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_stop_key')) + ':      auger stop\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_dig_key')) + ':      auger reverse\n' +\
+    'Pitch motor:\n'    \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_increase_key')) + ':      pitch increase\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_stop_key')) + ':      pitch stop\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_decrease_key')) + ':      pitch decrease\n' +\
+    'Depth motor:\n'    \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key')) + ':      depth decrease\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_stop_key')) + ':      depth stop\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key')) + ':      depth increase\n' +\
+    'Dumping actuator:\n'    \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key')) + ':      extend actuator\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key')) + ':      stop actuator\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key')) + ':      retract actuator\n' +\
+    'CTRL-C to quit'
 
-Auger motor:
-    m:      auger on
-    ,:      auger stop
-    .:      auger reverse
-Pitch motor:
-    j:      pitch increase
-    k:      pitch stop
-    l:      pitch decrease
-Depth motor:
-    u:      depth decrease
-    i:      depth stop
-    o:      depth increase
-Dumping actuator:
-    7:      extend
-    8:      stop
-    9:      retract
-
-
-CTRL-C to quit
-"""
-
-keyBindings = {
-        'w':0,  #loco forward
-        'a':1,  #loco left
-        's':2,  #loco backward
-        'd':3,  #loco right
-        ' ':4,  #loco stop
-        'm':5,  #auger dig on 
-        ',':6,  #auger stop 
-        '.':7,  #auger dig reverse
-        'j':8,  #increase pitch
-        'k':9,  #stop pitch
-        'l':10,  #decrease pitch
-        'u':11, #decrease depth
-        'i':12, #stop depth
-        'o':13, #increase depth
-        '7':14, #extend dumpa
-        '8':15, #stop dumpa
-        '9':16, #retract dumpa
-    }
 
 class PublishThread(threading.Thread):
     def __init__(self, rate):
         super(PublishThread, self).__init__()
-        self.publisher = rospy.Publisher('main_manual', Int32, queue_size=1)
+        self.publisher = rospy.Publisher('main_manual', String, queue_size=1)
 
         self.condition = threading.Condition()
         self.done = False
@@ -110,9 +95,12 @@ if __name__=="__main__":
     #Create a mars_robot_teleop node
     rospy.init_node('mars_robot_teleop')
 
-    #Publisher for Int32 codes on /main_manual topic
-    pub = rospy.Publisher('main_manual', Int32, queue_size=1)
-    control_msg = Int32()
+    #Publisher for String codes on /main_manual topic
+    pub = rospy.Publisher('main_manual', String, queue_size=1)
+    control_msg = String()
+
+    #Get keybindings from ROS parameter server (defined in mars_robot_params.yaml file)
+    keyBindings = rospy.get_param('/mars_robot/manual_control_keys')
 
     repeat = rospy.get_param("~repeat_rate", 0.0)
     key_timeout = rospy.get_param("~key_timeout", 0.0)
@@ -124,14 +112,16 @@ if __name__=="__main__":
     try:
         #pub_thread.wait_for_subscribers()
         print(instructions)
+
+
         
         while(1):
             key = getKey(key_timeout)
             print("key pressed: " + str(key))
             
-            #Publish Int32 codes on /main_manual topic
-            if key in keyBindings:
-                control_msg.data = keyBindings[key] #get code from dictionary
+            #Publish String codes on /main_manual topic
+            if key in keyBindings.values():
+                control_msg.data = key #set the msg data field
                 pub.publish(control_msg)
             
             else:

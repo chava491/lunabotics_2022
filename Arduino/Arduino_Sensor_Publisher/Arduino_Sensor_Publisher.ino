@@ -73,7 +73,7 @@ void setup() {
   node_handle.initNode();
   node_handle.advertise(sensor_data_publisher);
   
-  Serial.begin(57600);//57600
+  Serial.begin(57600);//baud 57600
   delay(10);
 
   LoadCell.begin();

@@ -1,0 +1,47 @@
+#This file is used to define all of the global parameters referenced by all the nodes of the robot.
+#Parameters only need to be changes here for them to take impact across all nodes
+
+mars_robot:
+  #Serial Numbers:
+  serial_nums:
+    depth_stepper: "00320097"
+    pitch_stepper: "00320100"
+    auger_odrive: "207939834D4D"
+    loco_odrive: "20863880304E"
+  
+  #Ports:
+  ports:
+    roboclaw_port: '/dev/ttyACM1'
+    arduino_port: '/dev/ttyACM0'
+
+  #Manual Control Keybindings:
+  manual_control_keys:
+    #Locomotion
+    loco_forward_key: 'w'
+    loco_left_key: 'a'
+    loco_backward_key: 's'
+    loco_right_key: 'd'
+    loco_stop_key: ' '
+    #Auger
+    auger_dig_key: 'm'
+    auger_stop_key: ','
+    auger_reverse_key: '.'
+    #Pitch
+    pitch_increase_key: 'j'
+    pitch_stop_key: 'k'
+    pitch_decrease_key: 'l'
+    #Depth
+    depth_decrease_key: 'u'
+    depth_stop_key: 'i'
+    depth_increase_key: 'o'
+    #Dumpa
+    dumpa_extend_key: '7'
+    dumpa_stop_key: '8'
+    dumpa_retract_key: '9'
+  
+  #Motor Speeds
+    
+
+
+
+  

@@ -5,6 +5,7 @@ This file houses all of the dumping functionality
 @created: 3-22-2022
 """
 
+import rospy
 import time
 from roboclaw import Roboclaw
 
@@ -18,7 +19,7 @@ class Dumping:
     def __init__(self):
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
-            self.port = '/dev/ttyACM1'
+            self.port = rospy.get_param('/mars_robot/ports/roboclaw_port')
             self.roboclaw = Roboclaw(self.port, 38400)
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")

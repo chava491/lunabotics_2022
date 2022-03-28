@@ -7,6 +7,7 @@ recvieving a "[USB] Could not claim interface � on USB device: -6"
 @created: 3-22-2022
 """
 
+import rospy
 import odrive
 from odrive.utils import dump_errors
 from odrive.enums import *
@@ -21,10 +22,10 @@ class Digging_Locomotion:
     # Establish the odrive connection for auger
     #---------------------------------------------------------------------
     def __init__(self):
-        self.depth_serial_num = "00320097" #Depth tic36v4 stepper driver serial number
-        self.pitch_serial_num = "00320100" #Pitch tic36v4 stepper driver serial number
-        self.odrv0_serial_num = "207939834D4D" #Digging Odrive serial number
-        self.odrv1_serial_num = "20863880304E" #Locomotion Odrive serial number
+        self.depth_serial_num = rospy.get_param('/mars_robot/serial_nums/depth_stepper') #Depth tic36v4 stepper driver serial number
+        self.pitch_serial_num = rospy.get_param('/mars_robot/serial_nums/pitch_stepper') #Pitch tic36v4 stepper driver serial number
+        self.odrv0_serial_num = rospy.get_param('/mars_robot/serial_nums/auger_odrive') #Auger Odrive serial number
+        self.odrv1_serial_num = rospy.get_param('/mars_robot/serial_nums/loco_odrive') #Locomotion Odrive serial number
 
         try:
             print("Searching for digging odrive, this may take a few seconds...")

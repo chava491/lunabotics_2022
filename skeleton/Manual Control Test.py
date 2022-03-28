@@ -55,10 +55,10 @@ def on_press(key):
             odrv1.axis1.controller.input_vel = -50
         #Normal Mining
         elif key.char in ['m']:
-            odrv0.axis0.controller.input_vel = 16
+           odrv0.axis0.controller.input_vel = 16
         #Reverse Mining
         elif key.char in ['n']:
-            odrv0.axis0.controller.input_vel = -16
+           odrv0.axis0.controller.input_vel = -16
         #Increase Pitch
         elif key.char in ['j']:
             ticcmd('--resume')
@@ -105,7 +105,7 @@ def on_release(key):
         odrv0.axis0.controller.input_vel = 0
 
     elif key == keyboard.Key.up:
-        dump.actuator_extend()
+       dump.actuator_extend()
 
     elif key.char in ['w']:
         odrv1.axis0.controller.input_vel = 0
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     with keyboard.Listener(on_press=on_press,on_release=on_release) as listener:
         listener.join()
 
-    odrv0.axis0.requested_state = AXIS_STATE_IDLE
+    #odrv0.axis0.requested_state = AXIS_STATE_IDLE
     odrv1.axis0.requested_state = AXIS_STATE_IDLE
     odrv1.axis1.requested_state = AXIS_STATE_IDLE
 

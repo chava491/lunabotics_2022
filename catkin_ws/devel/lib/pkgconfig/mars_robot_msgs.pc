@@ -1,4 +1,4 @@
-prefix=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel
+prefix=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel
 
 Name: mars_robot_msgs
 Description: Description of mars_robot_msgs
