@@ -2,12 +2,12 @@
 """
 This file houses all of the digging and locomotion functionality
 These two systems were combined into 1 script because we were continuosly
-recvieving a "[USB] Could not claim interface � on USB device: -6"
+recvieving a "[USB] Could not claim interface � on USB device: -6" when 
+trying to access odrives in seperate files.
 
 @created: 3-22-2022
 """
 
-import rospy
 import odrive
 from odrive.utils import dump_errors
 from odrive.enums import *
@@ -21,11 +21,11 @@ class Digging_Locomotion:
     # 
     # Establish the odrive connection for auger
     #---------------------------------------------------------------------
-    def __init__(self):
-        self.depth_serial_num = rospy.get_param('/mars_robot/serial_nums/depth_stepper') #Depth tic36v4 stepper driver serial number
-        self.pitch_serial_num = rospy.get_param('/mars_robot/serial_nums/pitch_stepper') #Pitch tic36v4 stepper driver serial number
-        self.odrv0_serial_num = rospy.get_param('/mars_robot/serial_nums/auger_odrive') #Auger Odrive serial number
-        self.odrv1_serial_num = rospy.get_param('/mars_robot/serial_nums/loco_odrive') #Locomotion Odrive serial number
+    def __init__(self, depth_SN, pitch_SN, odrv0_SN, odrv1_SN):
+        self.depth_serial_num = depth_SN
+        self.pitch_serial_num = pitch_SN
+        self.odrv0_serial_num = odrv0_SN
+        self.odrv1_serial_num = odrv1_SN
 
         try:
             print("Searching for digging odrive, this may take a few seconds...")
@@ -236,56 +236,56 @@ class Digging_Locomotion:
     #
     # param: speed -- set the speed of movement (max at 67)
     #--------------------------------------------------------------------
-    def loco_forward(self, speed):
+    def loco_forward(self, left_speed, right_speed):
         self.odrv1.axis0.controller.input_vel = 0
         self.odrv1.axis1.controller.input_vel = 0
 
         time.sleep(0.1)
 
-        self.odrv1.axis0.controller.input_vel = -speed
-        self.odrv1.axis1.controller.input_vel = speed
+        self.odrv1.axis0.controller.input_vel = -left_speed
+        self.odrv1.axis1.controller.input_vel = right_speed
 
     #--------------------------------------------------------------------
     # Zero point turn left
     #
     # param: speed -- set the speed of movement (max at 67)
     #--------------------------------------------------------------------
-    def loco_left(self, speed):
+    def loco_left(self, left_speed, right_speed):
         self.odrv1.axis0.controller.input_vel = 0
         self.odrv1.axis1.controller.input_vel = 0
 
         time.sleep(0.1)
 
-        self.odrv1.axis0.controller.input_vel = speed
-        self.odrv1.axis1.controller.input_vel = speed
+        self.odrv1.axis0.controller.input_vel = left_speed
+        self.odrv1.axis1.controller.input_vel = right_speed
     
     #--------------------------------------------------------------------
     # Drives robot in reverse
     #
     # param: speed -- sets the speed of movement (max at speed)
     #--------------------------------------------------------------------
-    def loco_back(self, speed):
+    def loco_back(self, left_speed, right_speed):
         self.odrv1.axis0.controller.input_vel = 0
         self.odrv1.axis1.controller.input_vel = 0
 
         time.sleep(0.1)
 
-        self.odrv1.axis0.controller.input_vel = speed
-        self.odrv1.axis1.controller.input_vel = -speed
+        self.odrv1.axis0.controller.input_vel = left_speed
+        self.odrv1.axis1.controller.input_vel = -right_speed
 
     #--------------------------------------------------------------------
     # Zero point turn right 
     #
     # param: speed -- sets the speed of movement (max at 50)
     #--------------------------------------------------------------------
-    def loco_right(self, speed):
+    def loco_right(self, left_speed, right_speed):
         self.odrv1.axis0.controller.input_vel = 0
         self.odrv1.axis1.controller.input_vel = 0
 
         time.sleep(0.1)
 
-        self.odrv1.axis0.controller.input_vel = -speed
-        self.odrv1.axis1.controller.input_vel = -speed
+        self.odrv1.axis0.controller.input_vel = -left_speed
+        self.odrv1.axis1.controller.input_vel = -right_speed
     
     #--------------------------------------------------------------------
     # Stops all movement

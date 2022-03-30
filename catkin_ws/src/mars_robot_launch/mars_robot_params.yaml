@@ -12,7 +12,7 @@ mars_robot:
   #Ports:
   ports:
     roboclaw_port: '/dev/ttyACM1'
-    arduino_port: '/dev/ttyACM0'
+    #arduino_port: must be defined in mars_robot_launch.launch file
 
   #Manual Control Keybindings:
   manual_control_keys:
@@ -40,6 +40,14 @@ mars_robot:
     dumpa_retract_key: '9'
   
   #Motor Speeds
+  motor_speeds:
+    loco_left_speed: 66.67      #turns/s      (Limit: 0-66.67)
+    loco_right_speed: 66.67     #turns/s      (Limit: 0-66.67)
+    auger_speed: 16.67          #turns/s      (Limit: 0-16.67)
+    pitch_speed: 500000         #microsteps/s (Limit: *depends on step mode)
+    depth_speed: 500000         #microsteps/s (Limit: *depends on step mode) 
+    dumpa_speed: 127            #unkown       (Limit: 0-127)
+
     
 
 

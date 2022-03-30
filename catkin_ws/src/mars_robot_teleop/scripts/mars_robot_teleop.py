@@ -117,7 +117,7 @@ if __name__=="__main__":
         
         while(1):
             key = getKey(key_timeout)
-            print("key pressed: " + str(key))
+            #print("key pressed: " + str(key))
             
             #Publish String codes on /main_manual topic
             if key in keyBindings.values():
