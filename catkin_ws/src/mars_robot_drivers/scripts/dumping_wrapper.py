@@ -9,7 +9,11 @@ from dumping_driver import Dumping
 class dumpingWrapperROS:
 
     def __init__(self):
-        self.dumping = Dumping()
+        rc_port = rospy.get_param('/mars_robot/ports/roboclaw_port')    #device port of roboclaw
+
+        self.dumping = Dumping(rc_port)
+        
+        self.speed = rospy.get_param('mars_robot/motor_speeds/dumpa_speed')
 
         self.opcode = -1
 
@@ -20,11 +24,11 @@ class dumpingWrapperROS:
         self.opcode = msg.data
 
         if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key'):
-            self.dumping.actuator_extend()
+            self.dumping.actuator_extend(self.speed)
         if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key'):
             self.dumping.actuator_stop()
         if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key'):
-            self.dumping.actuator_retract()
+            self.dumping.actuator_retract(self.speed)
 
     def callback_stop(self, msg):
         self.opcode = msg.data

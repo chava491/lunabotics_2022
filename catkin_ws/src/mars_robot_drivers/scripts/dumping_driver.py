@@ -5,7 +5,6 @@ This file houses all of the dumping functionality
 @created: 3-22-2022
 """
 
-import rospy
 import time
 from roboclaw import Roboclaw
 
@@ -16,10 +15,10 @@ class Dumping:
     #
     # Establish the roboclaw connection for the linear actuator
     #---------------------------------------------------------------------
-    def __init__(self):
+    def __init__(self, rc_port):
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
-            self.port = rospy.get_param('/mars_robot/ports/roboclaw_port')
+            self.port = rc_port     #device port of roboclaw
             self.roboclaw = Roboclaw(self.port, 38400)
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")
@@ -29,16 +28,16 @@ class Dumping:
     #--------------------------------------------------------------------
     # Extend the linear actuator forward for its full length
     #--------------------------------------------------------------------
-    def actuator_extend(self):
+    def actuator_extend(self, speed=127):
         if self.roboclaw != None:
-            self.roboclaw.ForwardM1(128, 127)
+            self.roboclaw.ForwardM1(128, speed)
 
     #--------------------------------------------------------------------
     # Fully retract the linear actuator
     #--------------------------------------------------------------------
-    def actuator_retract(self):
+    def actuator_retract(self, speed=127):
         if self.roboclaw != None:
-            self.roboclaw.BackwardM1(128, 127)
+            self.roboclaw.BackwardM1(128, speed)
 
     #--------------------------------------------------------------------
     # Stop the linear actuator
@@ -50,10 +49,10 @@ class Dumping:
     #--------------------------------------------------------------------
     # A full dump algorithm
     #--------------------------------------------------------------------
-    def full_dump(self):
-        self.actuator_extend()
+    def full_dump(self, speed=127):
+        self.actuator_extend(speed)
         time.sleep(10)
-        self.actuator_retract()
+        self.actuator_retract(speed)
         time.sleep(10)
 
     #--------------------------------------------------------------------
