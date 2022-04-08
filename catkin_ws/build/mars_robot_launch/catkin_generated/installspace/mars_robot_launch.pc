@@ -1,4 +1,4 @@
-prefix=/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install
+prefix=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/install
 
 Name: mars_robot_launch
 Description: Description of mars_robot_launch

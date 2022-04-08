@@ -21,7 +21,7 @@ mars_robot:
     loco_left_key: 'a'
     loco_backward_key: 's'
     loco_right_key: 'd'
-    loco_stop_key: ' '
+    loco_stop_key: ''
     #Auger
     auger_dig_key: 'm'
     auger_stop_key: ','

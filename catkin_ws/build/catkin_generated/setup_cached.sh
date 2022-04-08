@@ -7,7 +7,7 @@
 # new environment variables
 
 # modified environment variables
-export LD_LIBRARY_PATH='/opt/ros/melodic/lib'
+export LD_LIBRARY_PATH='/opt/ros/melodic/lib:/opt/ros/melodic/lib/x86_64-linux-gnu'
 export PKG_CONFIG_PATH='/opt/ros/melodic/lib/pkgconfig'
-export PWD='/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build'
-export ROS_PACKAGE_PATH='/home/abe/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src:/opt/ros/melodic/share'
+export PWD='/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build'
+export ROS_PACKAGE_PATH='/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src:/opt/ros/melodic/share'

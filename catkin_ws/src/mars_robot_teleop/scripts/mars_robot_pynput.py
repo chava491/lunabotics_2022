@@ -103,10 +103,7 @@ if __name__=="__main__":
     keyBindings = rospy.get_param('/mars_robot/manual_control_keys')
 
     repeat = rospy.get_param("~repeat_rate", 0.0)
-    
-    #rate at which loco_stop command is being published when no key is pressed. 
-    #used for press & hold key funtionality
-    key_timeout = rospy.get_param("~key_timeout", 0.5) 
+    key_timeout = rospy.get_param("~key_timeout", 0.5)
     if key_timeout == 0.0:
         key_timeout = None
 
@@ -132,7 +129,6 @@ if __name__=="__main__":
                 # stopped.
                 if key == '':
                     continue
-               
                 if (key == '\x03'):
                     break
 
