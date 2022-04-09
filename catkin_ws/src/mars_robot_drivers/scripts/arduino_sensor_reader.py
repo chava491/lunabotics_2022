@@ -13,15 +13,15 @@ where <USB# or ACM#> corresponds the device port the arduino is connected to.
 
 
 import rospy
-from std_msgs.msg import Float32
+from mars_robot_msgs.msg import sensor_msg
 
 def subscriber():
-    sub = rospy.Subscriber('sensor_data', Float32, callback_function)
+    sub = rospy.Subscriber('sensor_data', sensor_msg, callback_function)
     rospy.spin()
 
-def callback_function(weight_reading):
-    rospy.loginfo("I received: %f" % weight_reading.data)
-    bin_status = is_bin_full(weight_reading.data)
+def callback_function(sensor_msg):
+    rospy.loginfo("I received: %f" % sensor_msg.mass)
+    bin_status = is_bin_full(sensor_msg.mass)
     rospy.loginfo("Bin Full?: " + str(bin_status))
     rospy.loginfo("=====================")
 

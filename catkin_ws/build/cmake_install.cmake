@@ -134,8 +134,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot/cmake_install.cmake")
   include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_drivers/cmake_install.cmake")
   include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_launch/cmake_install.cmake")
-  include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/cmake_install.cmake")
   include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_teleop/cmake_install.cmake")
+  include("/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs/cmake_install.cmake")
 
 endif()
 

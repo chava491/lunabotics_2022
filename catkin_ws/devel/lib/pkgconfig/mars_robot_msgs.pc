@@ -3,6 +3,6 @@ prefix=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel
 Name: mars_robot_msgs
 Description: Description of mars_robot_msgs
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: std_msgs message_runtime
