@@ -3,7 +3,7 @@
   
   This arduino script is used to take readings from all of the sensors 
   onboard the robot. This script creates a ROS node and publishes all the
-  sensor readings to the pyduino_reader_node (Subscriber), which is in a python script, 
+  sensor readings to the arduino_reader_node (Subscriber), which is in a python script, 
   over the /sensor_data topic.
  
   A tutorial explaining how to setup the arduino as a rosserial ROS node can be found at: 
@@ -38,6 +38,8 @@
    * We won't need to recalibrate the weight sensors for the robot unless we notice the readings are very off, 
    * so this is allows for a one and done calibration.
 */
+
+
 #include </home/mars/Arduino/libraries/ros_lib/mars_robot_msgs/sensor_msg.h>
 //#include <sensor_msg.h>
 #include <ros.h>
@@ -111,9 +113,9 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 // packet structure for InvenSense teapot demo
 uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
 
-// ================================================================
-// ===               INTERRUPT DETECTION ROUTINE                ===
-// ================================================================
+// ================================
+// INTERRUPT DETECTION ROUTINE
+// ================================
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
     mpuInterrupt = true;
@@ -125,6 +127,12 @@ void dmpDataReady() {
 const int laser_top_pin = 22;
 const int laser_left_pin = 24;
 const int laser_right_pin = 26;
+
+
+// ================================================================
+// ===                    MAIN PROGRAM SETUP                    ===
+// ================================================================
+
 
 void setup() {
   //Initilization of ROS node

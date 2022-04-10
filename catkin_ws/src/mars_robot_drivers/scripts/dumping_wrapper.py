@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
+"""
+This script is used to perform start a dumping node to perform dumping operations manually
+"""
+
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import String
 
 from dumping_driver import Dumping
 
-class dumpingWrapperROS:
+class Dumping_WrapperROS:
 
     def __init__(self):
         rc_port = rospy.get_param('/mars_robot/ports/roboclaw_port')    #device port of roboclaw
@@ -15,32 +19,17 @@ class dumpingWrapperROS:
         
         self.speed = rospy.get_param('mars_robot/motor_speeds/dumpa_speed')
 
-        self.opcode = -1
-
-        rospy.Subscriber("main_manual", String, self.callback_main)
-        rospy.Subscriber("emergency_stop", Int32, self.callback_stop)
+        rospy.Subscriber("main_control", String, self.callback_main)
     
     def callback_main(self, msg):
-        self.opcode = msg.data
+        opcode = msg.data
 
-        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key'):
+        if opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key'):
             self.dumping.actuator_extend(self.speed)
-        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key'):
+        if opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key'):
             self.dumping.actuator_stop()
-        if self.opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key'):
+        if opcode == rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key'):
             self.dumping.actuator_retract(self.speed)
-
-    def callback_stop(self, msg):
-        self.opcode = msg.data
-        if self.opcode == 1:
-            try:
-                self.stop()
-                print(self.opcode)
-                print("Successfully shutdown the Dumping subsystem")
-            except:
-                print("Something went wrong with Dumping shutdown")
-        elif self.opcode == 2:
-            self.engage()
 
     def stop(self):
         self.dumping.disable_roboclaw()
@@ -51,7 +40,7 @@ class dumpingWrapperROS:
 if __name__ == "__main__":
     rospy.init_node("dumping_node")
 
-    dumping_wrapper = dumpingWrapperROS()
+    dumping_wrapper = Dumping_WrapperROS()
 
     rospy.on_shutdown(dumping_wrapper.stop)
 

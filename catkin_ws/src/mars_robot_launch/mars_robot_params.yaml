@@ -38,6 +38,13 @@ mars_robot:
     dumpa_extend_key: '7'
     dumpa_stop_key: '8'
     dumpa_retract_key: '9'
+    #Start Autonomy
+    digging_auto_start: '1'
+    dumping_auto_start: '2'
+    loco_auto_start: '3'
+    #Stop All Autonomy
+    auto_stop: 'z'
+
   
   #Motor Speeds
   motor_speeds:

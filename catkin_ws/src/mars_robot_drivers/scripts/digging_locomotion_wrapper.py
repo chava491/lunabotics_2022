@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
+"""
+This script is used to perform start a digging_locomotion node to perform these operations manually
+"""
+
 import rospy
 from std_msgs.msg import String
 from std_msgs.msg import Int32
 from digging_locomotion_driver import Digging_Locomotion
 
-class digging_locomotion_WrapperROS:
+class Digging_Locomotion_WrapperROS:
 
     def __init__(self):
         #Get driver serial numbers:
@@ -17,14 +21,14 @@ class digging_locomotion_WrapperROS:
         self.digging_locomotion = Digging_Locomotion(depth_SN, pitch_SN, odrv0_SN, odrv1_SN)
 
         #Get motor speeds:
-        self.loco_left_speed = rospy.get_param('/mars_robot/motor_speed/loco_left_speed')
-        self.loco_right_speed = rospy.get_param('/mars_robot/motor_speed/loco_right_speed')
-        self.auger_speed = rospy.get_param('/mars_robot/motor_speed/auger_speed')
-        self.pitch_speed = rospy.get_param('/mars_robot/motor_speed/pitch_speed')
-        self.depth_speed = rospy.get_param('/mars_robot/motor_speed/depth_speed')
+        self.loco_left_speed = rospy.get_param('/mars_robot/motor_speeds/loco_left_speed')
+        self.loco_right_speed = rospy.get_param('/mars_robot/motor_speeds/loco_right_speed')
+        self.auger_speed = rospy.get_param('/mars_robot/motor_speeds/auger_speed')
+        self.pitch_speed = rospy.get_param('/mars_robot/motor_speeds/pitch_speed')
+        self.depth_speed = rospy.get_param('/mars_robot/motor_speeds/depth_speed')
 
-        rospy.Subscriber("main_manual", String, self.callback_main)
-        rospy.Subscriber("emergency_stop", Int32, self.callback_stop)
+        rospy.Subscriber("main_control", String, self.callback_main)
+        
 
     def callback_main(self, msg):
         opcode = msg.data
@@ -66,28 +70,16 @@ class digging_locomotion_WrapperROS:
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key'):
             self.digging_locomotion.depth_motor_turn(-1*self.depth_speed)
 
-    
-    def callback_stop(self, msg):
-        opcode = msg.data
-        if opcode == 1:
-            try:
-                self.stop()
-                print(opcode)
-                print("Successfully shutdown the Digging subsystem")
-            except:
-                print("Something went wrong with Digging shutdown")
-        elif opcode == 2:
-            self.engage()
-
     def stop(self):
         self.digging_locomotion.digging_motors_disengage()
         self.digging_locomotion.loco_disengage_motors()
+        print("Successfully shutdown the Digging_Locomotion subsystems")
         
 
 if __name__ == "__main__":
     rospy.init_node("digging_locomotion_node")
 
-    digging_locomotion_wrapper = digging_locomotion_WrapperROS()
+    digging_locomotion_wrapper = Digging_Locomotion_WrapperROS()
 
     rospy.on_shutdown(digging_locomotion_wrapper.stop)
 

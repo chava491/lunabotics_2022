@@ -17,7 +17,7 @@ from std_msgs.msg import String
 import sys, select, termios, tty
 
 instructions = '---------------------------------------------------------\n' \
-    'Reading from the keyboard and Publishing to /main_manual!\n' \
+    'Reading from the keyboard and Publishing to /main_control!\n' \
     'Use the following keys to control the robot:\n' \
     '---------------------------------------------------------\n' \
     'locomotion: \n' \
@@ -49,7 +49,7 @@ instructions = '---------------------------------------------------------\n' \
 class PublishThread(threading.Thread):
     def __init__(self, rate):
         super(PublishThread, self).__init__()
-        self.publisher = rospy.Publisher('main_manual', String, queue_size=1)
+        self.publisher = rospy.Publisher('main_control', String, queue_size=1)
 
         self.condition = threading.Condition()
         self.done = False
@@ -95,17 +95,18 @@ if __name__=="__main__":
     #Create a mars_robot_teleop node
     rospy.init_node('mars_robot_teleop')
 
-    #Publisher for String codes on /main_manual topic
-    pub = rospy.Publisher('main_manual', String, queue_size=1)
+    #Publisher for String codes on /main_control topic
+    pub = rospy.Publisher('main_control', String, queue_size=1)
+    pub_test = rospy.Publisher('emergency_stop', String, queue_size=1)
     control_msg = String()
 
     #Get keybindings from ROS parameter server (defined in mars_robot_params.yaml file)
-    keyBindings = rospy.get_param('/mars_robot/manual_control_keys')
+    manual_keyBindings = rospy.get_param('/mars_robot/manual_control_keys')
 
     repeat = rospy.get_param("~repeat_rate", 0.0)
     
     #rate at which loco_stop command is being published when no key is pressed. 
-    #used for press & hold key funtionality
+    #used for press & hold key funtionality of loco motors
     key_timeout = rospy.get_param("~key_timeout", 0.5) 
     if key_timeout == 0.0:
         key_timeout = None
@@ -115,20 +116,19 @@ if __name__=="__main__":
     try:
         #pub_thread.wait_for_subscribers()
         print(instructions)
-
-
         
         while(1):
             key = getKey(key_timeout)
             #print("key pressed: " + str(key))
             
-            #Publish String codes on /main_manual topic
-            if key in keyBindings.values():
+            #Publish String codes on /main_control topic
+            if key in manual_keyBindings.values():
                 control_msg.data = key #set the msg data field
                 pub.publish(control_msg)
-            
+                pub_test.publish(control_msg)
+
             else:
-                # Skip updating main_manual if key timeout and robot already
+                # Skip updating main_control if key timeout and robot already
                 # stopped.
                 if key == '':
                     continue

@@ -17,7 +17,7 @@ from std_msgs.msg import String
 import sys, select, termios, tty
 
 instructions = '---------------------------------------------------------\n' \
-    'Reading from the keyboard and Publishing to /main_manual!\n' \
+    'Reading from the keyboard and Publishing to /main_control!\n' \
     'Use the following keys to control the robot:\n' \
     '---------------------------------------------------------\n' \
     'locomotion: \n' \
@@ -49,7 +49,7 @@ instructions = '---------------------------------------------------------\n' \
 class PublishThread(threading.Thread):
     def __init__(self, rate):
         super(PublishThread, self).__init__()
-        self.publisher = rospy.Publisher('main_manual', String, queue_size=1)
+        self.publisher = rospy.Publisher('main_control', String, queue_size=1)
 
         self.condition = threading.Condition()
         self.done = False
@@ -95,8 +95,8 @@ if __name__=="__main__":
     #Create a mars_robot_teleop node
     rospy.init_node('mars_robot_teleop')
 
-    #Publisher for String codes on /main_manual topic
-    pub = rospy.Publisher('main_manual', String, queue_size=1)
+    #Publisher for String codes on /main_control topic
+    pub = rospy.Publisher('main_control', String, queue_size=1)
     control_msg = String()
 
     #Get keybindings from ROS parameter server (defined in mars_robot_params.yaml file)
@@ -119,13 +119,13 @@ if __name__=="__main__":
             key = getKey(key_timeout)
             #print("key pressed: " + str(key))
             
-            #Publish String codes on /main_manual topic
+            #Publish String codes on /main_control topic
             if key in keyBindings.values():
                 control_msg.data = key #set the msg data field
                 pub.publish(control_msg)
             
             else:
-                # Skip updating main_manual if key timeout and robot already
+                # Skip updating main_control if key timeout and robot already
                 # stopped.
                 if key == '':
                     continue

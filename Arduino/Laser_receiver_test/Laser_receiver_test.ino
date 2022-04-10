@@ -7,7 +7,7 @@
  */
 
 //pins
-const int laser_read_pin = 2;
+const int laser_read_pin = 22;
 
 void setup() {
   Serial.begin(57600);
