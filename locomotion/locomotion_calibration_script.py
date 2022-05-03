@@ -122,7 +122,7 @@ if __name__ == '__main__':
     odrv0.config.brake_resistance = brake_resistance
     print("Set brake resistance: " + str(brake_resistance))
 
-    dc_max_negative_current = -10e-6
+    dc_max_negative_current = -0.01
     odrv0.config.dc_max_negative_current = dc_max_negative_current
     print("Set dc_max_negative_current: " + str(dc_max_negative_current))
 
