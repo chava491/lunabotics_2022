@@ -261,6 +261,29 @@ if __name__ == '__main__':
     odrv0.axis0.encoder.config.pre_calibrated = True
     odrv0.axis1.encoder.config.pre_calibrated = True
 
+    print("Setting proper gain values for motors....")
+
+    #Gain settings
+    pos_gain = 1.3
+    odrv0.axis0.controller.config.pos_gain = pos_gain
+    odrv0.axis1.controller.config.pos_gain = pos_gain
+    print("Set pos_gain for axis0: " + str(pos_gain))
+    print("Set pos_gain for axis1: " + str(pos_gain))
+
+    vel_gain = 0.16
+    odrv0.axis0.controller.config.vel_gain = vel_gain
+    odrv0.axis1.controller.config.vel_gain = vel_gain
+    print("Set vel_gain for axis0: " + str(vel_gain))
+    print("Set vel_gain for axis1: " + str(vel_gain))
+
+    vel_integrator_gain = 2.5
+    odrv0.axis0.controller.config.vel_integrator_gain = vel_integrator_gain
+    odrv0.axis1.controller.config.vel_integrator_gain = vel_integrator_gain
+    print("Set vel_integrator_gain for axis0: " + str(vel_integrator_gain))
+    print("Set vel_integrator_gain for axis1: " + str(vel_integrator_gain))
+    print("===================================================")
+    print("===================================================")
+
     print("Saving configuration to odrive...")
     print("Rebooting...")
 
