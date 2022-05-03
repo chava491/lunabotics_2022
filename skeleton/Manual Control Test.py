@@ -53,30 +53,30 @@ def on_press(key):
         elif key.char in ['d']:
             odrv1.axis0.controller.input_vel = -50
             odrv1.axis1.controller.input_vel = -50
-        #Normal Mining
-        elif key.char in ['m']:
-           odrv0.axis0.controller.input_vel = 16
-        #Reverse Mining
-        elif key.char in ['n']:
-           odrv0.axis0.controller.input_vel = -16
+        # #Normal Mining
+        # elif key.char in ['m']:
+        #    odrv0.axis0.controller.input_vel = 16
+        # #Reverse Mining
+        # elif key.char in ['n']:
+        #    odrv0.axis0.controller.input_vel = -16
         #Increase Pitch
         elif key.char in ['j']:
-            ticcmd('--resume')
+            ticcmd('-d', '00320097', '--resume')
             new_target_vel = 500000
-            ticcmd('--exit-safe-start', '-y', str(new_target_vel))
+            ticcmd('-d', '00320097', '--exit-safe-start', '-y', str(new_target_vel))
         #Decrease Pitch
         elif key.char in ['k']:
-            ticcmd('--resume')
+            ticcmd('-d', '00320097', '--resume')
             new_target_vel = -500000
-            ticcmd('--exit-safe-start', '-y', str(new_target_vel))
+            ticcmd('-d', '00320097', '--exit-safe-start', '-y', str(new_target_vel))
 
         #Extend Linear Actuator
-        elif key.char in ['t']:
-            arduino.write(bytes('1', 'utf-8'))
+        #elif key.char in ['t']:
+           # arduino.write(bytes('1', 'utf-8'))
         
         #Retract Linear Actuator
-        elif key.char in ['y']:
-            arduino.write(bytes('2', 'utf-8'))
+       # elif key.char in ['y']:
+           # arduino.write(bytes('2', 'utf-8'))
 
         #-------------------------------------------
         # Individual motor key
@@ -97,12 +97,12 @@ def on_press(key):
 def on_release(key):
     print('{0} released'.format(key))
     if key == keyboard.Key.esc:
-        ticcmd('--deenergize')
-        arduino.write(bytes('3', 'utf-8'))
+        ticcmd('-d', '00320097', '--deenergize')
+        #arduino.write(bytes('3', 'utf-8'))
         return False
 
-    elif key == keyboard.Key.space:
-        odrv0.axis0.controller.input_vel = 0
+    #elif key == keyboard.Key.space:
+        #odrv0.axis0.controller.input_vel = 0
 
     elif key == keyboard.Key.up:
        dump.actuator_extend()
@@ -125,10 +125,10 @@ def on_release(key):
 
     elif key.char in ['j']:
         new_target_vel = 0
-        ticcmd('--exit-safe-start', '-y', str(new_target_vel))
+        ticcmd('-d', '00320097','--exit-safe-start', '-y', str(new_target_vel))
     elif key.char in ['k']:
         new_target_vel = 0
-        ticcmd('--exit-safe-start', '-y', str(new_target_vel))
+        ticcmd('-d', '00320097', '--exit-safe-start', '-y', str(new_target_vel))
 
     # -------------------------------------------
     # Individual motor key
@@ -143,26 +143,26 @@ def ticcmd(*args):
     return subprocess.check_output(['ticcmd'] + list(args))
 
 if __name__ == '__main__':
-    dump = dumping.Dumping()
+    #dump = dumping.Dumping()
 
     print("Searching for odrive, this may take a few seconds...\n")
 
-    odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
+    #odrv0 = odrive.find_any(serial_number="207939834D4D")#Mining motors/odrive
     odrv1 = odrive.find_any(serial_number="20863880304E")#Locomotion motors/odrive
     print("Odrives found...\n")
 
     #Start serial object to control Linear Actuator
-    arduino = serial.Serial(port='/dev/ttyACM2', baudrate=115200, timeout=.1)
+   # arduino = serial.Serial(port='/dev/ttyACM2', baudrate=115200, timeout=.1)
 
     #Set Odrive state and control modes
-    odrv0.axis0.controller.config.control_mode = 2 #Velocity control
-    odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+    #odrv0.axis0.controller.config.control_mode = 2 #Velocity control
+    #odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv1.axis0.controller.config.control_mode = 2 #Velocity control
     odrv1.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv1.axis1.controller.config.control_mode = 2 #Velocity control
     odrv1.axis1.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     #Reset roboclaw zero position
-    ticcmd('--reset')
+    ticcmd('-d', '00320097', '--reset')
 
     print("It is time to control the robot!\nThe controls are simple: wasd or the arrow key.chars move the robot directionally.")
     print("Space will stop the robot in its tracks, and escape will end the control period altogether.")

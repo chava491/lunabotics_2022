@@ -32,7 +32,7 @@ class Digging_Locomotion_WrapperROS:
 
     def callback_main(self, msg):
         opcode = msg.data
-        print("opcode: " + str(msg.data))
+        #print("opcode: " + str(msg.data))
 
         #locomotion
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/loco_forward_key'):

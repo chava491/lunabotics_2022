@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
 
     print("Finding an odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()
+    odrv0 = odrive.find_any(serial_number="20863880304E")#serial_number="20863880304E"
     odrv0.axis0.controller.config.control_mode = 2 #Velocity control
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv0.axis1.controller.config.control_mode = 2 #Velocity control

@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+
 import subprocess
 import yaml
 import time
 import serial
-from roboclaw_3 import Roboclaw  # roboclaw package is used strictly because of RoboClaw motor controller that is used;
+from roboclaw import Roboclaw  # roboclaw package is used strictly because of RoboClaw motor controller that is used;
 # made by BasicMicro
 
 
@@ -16,7 +18,7 @@ class Dumping:
         self.serial_num = "00320100"  # may change for this year's robot
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
-            self.roboclaw = Roboclaw("/dev/ttyACM0", 38400)#ttyAMC0 to ttyAMC1
+            self.roboclaw = Roboclaw("/dev/ttyACM1", 38400)#ttyAMC0 to ttyAMC1
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")
         except:
@@ -51,7 +53,7 @@ class Dumping:
     # Enables the roboclaw to communicate on the ACM0 port
     # --------------------------------------------------------------------
     def enable_roboclaw(self):
-        self.roboclaw = Roboclaw("/dev/ttyACM0", 38400)  # /dev/ttyACM0 refers to connection to Udoo; shouldn't change
+        self.roboclaw = Roboclaw("/dev/ttyACM1", 38400)  # /dev/ttyACM0 refers to connection to Udoo; shouldn't change
         # but keep in mind.
 
         self.roboclaw.Open()
@@ -66,15 +68,13 @@ class Dumping:
 
         self.roboclaw.Close()
 
-
-        # enable_roboclaw(self)
-        # actuator_retract(self)
-        # time.sleep(2.0)
-        # actuator_extend(self)
-        # time.sleep(2.0)
-        # actuator_stop(self)
-
-        print("END OF TEST")
         
 if __name__ == '__main__':
-    Dumping()
+    Dumpa = Dumping()
+    Dumpa.enable_roboclaw()
+    Dumpa.actuator_retract()
+    time.sleep(2.0)
+    Dumpa.actuator_extend()
+    time.sleep(2.0)
+    Dumpa.actuator_stop()
+    print("END OF TEST")

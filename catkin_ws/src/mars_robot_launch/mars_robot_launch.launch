@@ -3,10 +3,10 @@
     <rosparam command='load' file='$(find mars_robot_launch)/mars_robot_params.yaml'/>
     
     <!--Spawn all Nodes: Output teleop to terminal-->
-    <node name='digging_locomotion_node' pkg= 'mars_robot_drivers' type='digging_locomotion_wrapper.py'/>
-    <node name='dumping_node' pkg='mars_robot_drivers' type='dumping_wrapper.py'/>
+    <node name='digging_locomotion_node' pkg= 'mars_robot_drivers' type='digging_locomotion_wrapper.py' output='screen'/>
+    <node name='dumping_node' pkg='mars_robot_drivers' type='dumping_wrapper.py' output='screen'/>
     <!--node name='arduino_node' pkg='rosserial_python' type='serial_node.py' args= '/dev/ttyACM0'/-->
-    <node name='sensor_reader_node' pkg='mars_robot_drivers' type='arduino_sensor_reader.py'/>
+    <!--node name='sensor_reader_node' pkg='mars_robot_drivers' type='arduino_sensor_reader.py'/-->
     <node name='mars_robot_teleop' pkg='mars_robot_teleop' type='mars_robot_teleop.py' output='screen'/>
 
 

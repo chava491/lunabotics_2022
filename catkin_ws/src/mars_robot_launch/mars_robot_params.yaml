@@ -6,7 +6,7 @@ mars_robot:
   serial_nums:
     depth_stepper: "00320097"
     pitch_stepper: "00320100"
-    auger_odrive: "207939834D4D"
+    auger_odrive: "207B37943548"
     loco_odrive: "20863880304E"
   
   #Ports:
@@ -21,7 +21,7 @@ mars_robot:
     loco_left_key: 'a'
     loco_backward_key: 's'
     loco_right_key: 'd'
-    loco_stop_key: ''
+    loco_stop_key: ' '
     #Auger
     auger_dig_key: 'm'
     auger_stop_key: ','
