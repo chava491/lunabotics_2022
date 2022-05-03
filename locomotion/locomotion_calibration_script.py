@@ -78,14 +78,30 @@ if __name__ == '__main__':
     print("and run calibration sequences")
     print("=========================================================================")
     print("Searching for odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()#serial_number="207939834D4D"
+    odrv0 = odrive.find_any()
     print("odrive found...")
 
-    #Setup parameters for motors
-    current_lim = 4
+    print("Erasing previous configuration...")
+    try:
+        odrv0.erase_configuration()
+    except:
+        fibre.libfibre.ObjectLostError
+        pass # Erasing configuration makes the device reboot
+
+    print("Searching for odrive, this may take a few seconds...")
+    odrv0 = odrive.find_any()
+    print("odrive found...")
+
+    #Setup current parameters for motors
+    current_lim = 8
     odrv0.axis0.motor.config.current_lim = current_lim
     odrv0.axis1.motor.config.current_lim = current_lim
     print("Set current lim: " + str(current_lim))
+
+    current_lim_margin = 8
+    odrv0.axis0.motor.config.current_lim_margin = current_lim_margin
+    odrv0.axis1.motor.config.current_lim_margin = current_lim_margin
+    print("Set current lim: " + str(current_lim_margin))
 
     #Velocity limit in turns/s
     vel_limit = 67
@@ -93,7 +109,7 @@ if __name__ == '__main__':
     odrv0.axis1.controller.config.vel_limit = vel_limit
     print("Set vel limit: " + str(vel_limit))
 
-    calibration_current = 1
+    calibration_current = 2
     odrv0.axis0.motor.config.calibration_current = calibration_current
     odrv0.axis1.motor.config.calibration_current = calibration_current
     print("Set calibration current: " + str(calibration_current))
@@ -176,7 +192,7 @@ if __name__ == '__main__':
     print("done...")
 
     print("axis1: Performing AXIS_STATE_MOTOR_CALIBRATION")
-    odrv0.axis0.requested_state = AXIS_STATE_MOTOR_CALIBRATION
+    odrv0.axis1.requested_state = AXIS_STATE_MOTOR_CALIBRATION
     time.sleep(calib_time)
     print("done...")
 
