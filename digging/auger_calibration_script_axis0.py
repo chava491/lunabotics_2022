@@ -24,17 +24,32 @@ if __name__ == '__main__':
     odrv0 = odrive.find_any()
     print("odrive found...")
 
+    print("Erasing previous configuration...")
+    try:
+        odrv0.erase_configuration()
+    except:
+        fibre.libfibre.ObjectLostError
+        pass # Erasing configuration makes the device reboot
+
+    print("Searching for odrive, this may take a few seconds...")
+    odrv0 = odrive.find_any()
+    print("odrive found...")
+
     #Setup parameters for motors
-    current_lim = 30
+    current_lim = 10
     odrv0.axis0.motor.config.current_lim = current_lim
     print("Set current lim: " + str(current_lim))
+
+    current_lim_margin = 8
+    odrv0.axis0.motor.config.current_lim_margin = current_lim_margin
+    print("Set current lim: " + str(current_lim_margin))
 
     #Velocity limit in turns/s
     vel_limit = 16.67
     odrv0.axis0.controller.config.vel_limit = vel_limit
     print("Set vel limit: " + str(vel_limit))
 
-    calibration_current = 10
+    calibration_current = 2
     odrv0.axis0.motor.config.calibration_current = calibration_current
     print("Set calibration current: " + str(calibration_current))
 
@@ -46,7 +61,7 @@ if __name__ == '__main__':
     odrv0.config.brake_resistance = brake_resistance
     print("Set brake resistance: " + str(brake_resistance))
 
-    dc_max_negative_current = -10e-6
+    dc_max_negative_current = -0.01
     odrv0.config.dc_max_negative_current = dc_max_negative_current
     print("Set dc_max_negative_current: " + str(dc_max_negative_current))
 
@@ -165,5 +180,22 @@ if __name__ == '__main__':
     print("Searching for odrive, this may take a few seconds...")
     odrv0 = odrive.find_any()
     print("odrive found...")
+
+    #Setting PID controller gains
+    print("axis0: Setting Control Gains")
+    
+    pos_gain = 20
+    odrv0.axis0.controller.config.pos_gain = pos_gain
+    print("Set pos_gain: " + str(pos_gain))
+    
+    vel_gain = 0.16666
+    odrv0.axis0.controller.config.vel_gain = vel_gain
+    print("Set vel_gain: " + str(vel_gain))
+
+    vel_integrator_gain = 0.33333
+    odrv0.axis0.controller.config.vel_gain = vel_integrator_gain
+    print("Set vel_gain: " + str(vel_integrator_gain))
+
+    print("done...")
 
     print("Ending program...")
