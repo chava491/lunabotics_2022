@@ -73,7 +73,7 @@ class Digging_Locomotion_WrapperROS:
     def stop(self):
         self.digging_locomotion.digging_motors_disengage()
         self.digging_locomotion.loco_disengage_motors()
-        print("Successfully shutdown the Digging_Locomotion subsystems")
+        #print("Successfully shutdown the Digging_Locomotion subsystems")
         
 
 if __name__ == "__main__":
@@ -83,6 +83,6 @@ if __name__ == "__main__":
 
     rospy.on_shutdown(digging_locomotion_wrapper.stop)
 
-    rospy.loginfo("Digging_Locomotion node initialized successfully")
+    #rospy.loginfo("Digging_Locomotion node initialized successfully")
 
     rospy.spin()

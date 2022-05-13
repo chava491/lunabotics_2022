@@ -30,20 +30,23 @@ instructions = '---------------------------------------------------------\n' \
     'Auger motor:\n'    \
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_dig_key')) + ':      auger on\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_stop_key')) + ':      auger stop\n' +\
-        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_dig_key')) + ':      auger reverse\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/auger_reverse_key')) + ':      auger reverse\n' +\
     'Pitch motor:\n'    \
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_increase_key')) + ':      pitch increase\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_stop_key')) + ':      pitch stop\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_decrease_key')) + ':      pitch decrease\n' +\
     'Depth motor:\n'    \
-        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key')) + ':      depth decrease\n' +\
-        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_stop_key')) + ':      depth stop\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key')) + ':      depth increase\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_stop_key')) + ':      depth stop\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key')) + ':      depth decrease\n' +\
     'Dumping actuator:\n'    \
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key')) + ':      extend actuator\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key')) + ':      stop actuator\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_retract_key')) + ':      retract actuator\n' +\
-    'CTRL-C to quit'
+    'Vibrator motor:\n'    \
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/vibrator_on_key')) + ':      vibrator on\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/vibrator_off_key')) + ':      vibrator off\n' +\
+    'To quit: <CTRL-C>, wait 5 sec., <CTRL-C>'
 
 
 class PublishThread(threading.Thread):

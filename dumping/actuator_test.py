@@ -18,7 +18,7 @@ class Dumping:
         self.serial_num = "00320100"  # may change for this year's robot
         try:
             print("Searching for dumping roboclaw, this may take a few seconds...")
-            self.roboclaw = Roboclaw("/dev/ttyACM1", 38400)#ttyAMC0 to ttyAMC1
+            self.roboclaw = Roboclaw("/dev/ttyACM0", 38400)#ttyAMC0 to ttyAMC1
             self.roboclaw.Open()
             print("Dumping roboclaw connected successfully")
         except:

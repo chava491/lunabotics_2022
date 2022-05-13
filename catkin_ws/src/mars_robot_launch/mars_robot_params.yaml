@@ -11,7 +11,7 @@ mars_robot:
   
   #Ports:
   ports:
-    roboclaw_port: '/dev/ttyACM1'
+    roboclaw_port: '/dev/ttyACM2'
     #arduino_port: must be defined in mars_robot_launch.launch file
 
   #Manual Control Keybindings:
@@ -31,13 +31,16 @@ mars_robot:
     pitch_stop_key: 'k'
     pitch_decrease_key: 'l'
     #Depth
-    depth_decrease_key: 'u'
+    depth_increase_key: 'u'
     depth_stop_key: 'i'
-    depth_increase_key: 'o'
+    depth_decrease_key: 'o'
     #Dumpa
     dumpa_extend_key: '7'
     dumpa_stop_key: '8'
     dumpa_retract_key: '9'
+    #Vibrator
+    vibrator_on_key: '['
+    vibrator_off_key: ']'
     #Start Autonomy
     digging_auto_start: '1'
     dumping_auto_start: '2'
@@ -46,13 +49,13 @@ mars_robot:
     auto_stop: 'z'
 
   
-  #Motor Speeds
+  #Motor Speeds (Negative values arefor mathcing keybindings)
   motor_speeds:
     loco_left_speed: 66.67      #turns/s      (Limit: 0-66.67)
     loco_right_speed: 66.67     #turns/s      (Limit: 0-66.67)
-    auger_speed: 16.67          #turns/s      (Limit: 0-16.67)
-    pitch_speed: 500000         #microsteps/s (Limit: *depends on step mode)
-    depth_speed: 500000         #microsteps/s (Limit: *depends on step mode) 
+    auger_speed: -8.33          #turns/s      (Limit: 0-16.67)
+    pitch_speed: 1000000        #microsteps/s (Limit: *depends on step mode)
+    depth_speed: -4000000       #microsteps/s (Limit: *depends on step mode) 
     dumpa_speed: 127            #unkown       (Limit: 0-127)
 
     

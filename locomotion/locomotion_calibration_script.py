@@ -78,7 +78,7 @@ if __name__ == '__main__':
     print("and run calibration sequences")
     print("=========================================================================")
     print("Searching for odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()
+    odrv0 = odrive.find_any(serial_number="20863880304E")
     print("odrive found...")
 
     print("Erasing previous configuration...")
@@ -89,7 +89,7 @@ if __name__ == '__main__':
         pass # Erasing configuration makes the device reboot
 
     print("Searching for odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()
+    odrv0 = odrive.find_any(serial_number="20863880304E")
     print("odrive found...")
 
     #Setup current parameters for motors
@@ -180,7 +180,7 @@ if __name__ == '__main__':
 
 
     print("Searching for odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()
+    odrv0 = odrive.find_any(serial_number="20863880304E")
     print("odrive found...")
 
     #Start Performing Calibrations and Checks
@@ -294,7 +294,7 @@ if __name__ == '__main__':
         pass # Saving configuration makes the device reboot
 
     print("Searching for odrive, this may take a few seconds...")
-    odrv0 = odrive.find_any()
+    odrv0 = odrive.find_any(serial_number="20863880304E")
     print("odrive found...")
 
     print("Ending program...")

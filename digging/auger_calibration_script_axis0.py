@@ -36,7 +36,7 @@ if __name__ == '__main__':
     print("odrive found...")
 
     #Setup parameters for motors
-    current_lim = 10
+    current_lim = 29
     odrv0.axis0.motor.config.current_lim = current_lim
     print("Set current lim: " + str(current_lim))
 
