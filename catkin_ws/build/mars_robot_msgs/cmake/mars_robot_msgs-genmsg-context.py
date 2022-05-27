@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/sensor_msg.msg"
+messages_str = "/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/sensor_msg.msg;/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/motor_data_msg.msg"
 services_str = ""
 pkg_name = "mars_robot_msgs"
 dependencies_str = "std_msgs"

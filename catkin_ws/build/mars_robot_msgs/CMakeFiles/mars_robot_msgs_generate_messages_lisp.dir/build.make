@@ -54,6 +54,7 @@ CMAKE_BINARY_DIR = /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/bu
 include mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp.dir/progress.make
 
 mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/sensor_msg.lisp
+mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/motor_data_msg.lisp
 
 
 /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/sensor_msg.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
@@ -61,8 +62,14 @@ mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp: /home/mars/Do
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from mars_robot_msgs/sensor_msg.msg"
 	cd /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/sensor_msg.msg -Imars_robot_msgs:/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -p mars_robot_msgs -o /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg
 
+/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/motor_data_msg.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
+/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/motor_data_msg.lisp: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/motor_data_msg.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from mars_robot_msgs/motor_data_msg.msg"
+	cd /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/build/mars_robot_msgs && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg/motor_data_msg.msg -Imars_robot_msgs:/home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/src/mars_robot_msgs/msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -p mars_robot_msgs -o /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg
+
 mars_robot_msgs_generate_messages_lisp: mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp
 mars_robot_msgs_generate_messages_lisp: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/sensor_msg.lisp
+mars_robot_msgs_generate_messages_lisp: /home/mars/Documents/GitHub/MARS-Lunabotics-2022/catkin_ws/devel/share/common-lisp/ros/mars_robot_msgs/msg/motor_data_msg.lisp
 mars_robot_msgs_generate_messages_lisp: mars_robot_msgs/CMakeFiles/mars_robot_msgs_generate_messages_lisp.dir/build.make
 
 .PHONY : mars_robot_msgs_generate_messages_lisp

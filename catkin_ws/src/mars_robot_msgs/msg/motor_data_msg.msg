@@ -1,0 +1,4 @@
+float32 auger_current
+float32 auger_speed
+float32 right_loco_current
+float32 left_loco_current

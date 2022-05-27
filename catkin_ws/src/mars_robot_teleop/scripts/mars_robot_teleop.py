@@ -36,9 +36,9 @@ instructions = '---------------------------------------------------------\n' \
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_stop_key')) + ':      pitch stop\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/pitch_decrease_key')) + ':      pitch decrease\n' +\
     'Depth motor:\n'    \
-        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key')) + ':      depth increase\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key')) + ':      depth up\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_stop_key')) + ':      depth stop\n' +\
-        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key')) + ':      depth decrease\n' +\
+        '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key')) + ':      depth down\n' +\
     'Dumping actuator:\n'    \
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_extend_key')) + ':      extend actuator\n' +\
         '\t' + str(rospy.get_param('/mars_robot/manual_control_keys/dumpa_stop_key')) + ':      stop actuator\n' +\

@@ -6,8 +6,11 @@ This script is used to perform start a digging_locomotion node to perform these 
 
 import rospy
 from std_msgs.msg import String
+from std_msgs.msg import Float32
 from std_msgs.msg import Int32
+from mars_robot_msgs.msg import motor_data_msg
 from digging_locomotion_driver import Digging_Locomotion
+
 
 class Digging_Locomotion_WrapperROS:
 
@@ -25,9 +28,12 @@ class Digging_Locomotion_WrapperROS:
         self.loco_right_speed = rospy.get_param('/mars_robot/motor_speeds/loco_right_speed')
         self.auger_speed = rospy.get_param('/mars_robot/motor_speeds/auger_speed')
         self.pitch_speed = rospy.get_param('/mars_robot/motor_speeds/pitch_speed')
-        self.depth_speed = rospy.get_param('/mars_robot/motor_speeds/depth_speed')
+        self.depth_up_speed = rospy.get_param('/mars_robot/motor_speeds/depth_up_speed')
+        self.depth_down_speed = rospy.get_param('/mars_robot/motor_speeds/depth_down_speed')
 
-        rospy.Subscriber("main_control", String, self.callback_main)
+        self.subscriber = rospy.Subscriber("main_control", String, self.callback_main)
+
+        self.publisher = rospy.Publisher('motor_data', motor_data_msg, queue_size=10)
         
 
     def callback_main(self, msg):
@@ -62,13 +68,24 @@ class Digging_Locomotion_WrapperROS:
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/pitch_decrease_key'):
             self.digging_locomotion.pitch_motor_turn(-1*self.pitch_speed)
         
-        #depth
+        #depth (FIX LABELLING OF DOWN/UP)
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/depth_decrease_key'):
-            self.digging_locomotion.depth_motor_turn(self.depth_speed)
+            self.digging_locomotion.depth_motor_turn(self.depth_down_speed)
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/depth_stop_key'):
             self.digging_locomotion.depth_motor_stop()
         if opcode == rospy.get_param('/mars_robot/manual_control_keys/depth_increase_key'):
-            self.digging_locomotion.depth_motor_turn(-1*self.depth_speed)
+            self.digging_locomotion.depth_motor_turn(self.depth_up_speed)
+
+        #Print Data of Motors
+        if opcode == rospy.get_param('/mars_robot/diagnostic_values/print_motor_data'):
+            motor_data = motor_data_msg()
+            motor_data.auger_current = self.digging_locomotion.get_auger_motor_current()
+            motor_data.auger_speed = self.digging_locomotion.get_auger_motor_vel()
+            motor_data.right_loco_current = self.digging_locomotion.get_right_loco_motor_current()
+            motor_data.left_loco_current = self.digging_locomotion.get_left_loco_motor_current()
+
+            self.publisher.publish(motor_data)
+
 
     def stop(self):
         self.digging_locomotion.digging_motors_disengage()
@@ -86,3 +103,5 @@ if __name__ == "__main__":
     #rospy.loginfo("Digging_Locomotion node initialized successfully")
 
     rospy.spin()
+
+

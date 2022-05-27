@@ -49,6 +49,7 @@ find_package(catkin REQUIRED
  add_message_files(
    FILES
    sensor_msg.msg
+   motor_data_msg.msg
 #   Message1.msg
 #   Message2.msg
  )

@@ -112,7 +112,7 @@ class Digging_Locomotion:
     #   unless motor is near max rpm
     #---------------------------------------------------------------------
     def get_auger_motor_current(self):
-        return self.odrv0.axis0.motor.current_control.Iq_setpoint
+        return self.odrv0.axis0.motor.current_control.Iq_measured
 
     #---------------------------------------------------------------------
     # Returns: the position estimation of the auger motor [turns]
@@ -336,10 +336,10 @@ class Digging_Locomotion:
     #   unless motor is near max rpm
     #---------------------------------------------------------------------
     def get_left_loco_motor_current(self):
-        return self.odrv1.axis0.motor.current_control.Iq_setpoint
+        return self.odrv1.axis0.motor.current_control.Iq_measured
 
     def get_right_loco_motor_current(self):
-        return self.odrv1.axis1.motor.current_control.Iq_setpoint
+        return self.odrv1.axis1.motor.current_control.Iq_measured
     
     #---------------------------------------------------------------------
     # Returns: the position estimation of the loco motor [turns]

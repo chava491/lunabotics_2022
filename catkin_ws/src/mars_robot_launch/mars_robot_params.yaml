@@ -47,16 +47,24 @@ mars_robot:
     loco_auto_start: '3'
     #Stop All Autonomy
     auto_stop: 'z'
+    
+  
+  diagnostic_values:
+    #Print Motor Data 
+    #(Dummy variable used by teleop for sending message to print current/speeds)
+    print_motor_data: '' 
+    print_interval: 0.01
 
   
   #Motor Speeds (Negative values arefor mathcing keybindings)
   motor_speeds:
-    loco_left_speed: 66.67      #turns/s      (Limit: 0-66.67)
-    loco_right_speed: 66.67     #turns/s      (Limit: 0-66.67)
-    auger_speed: -8.33          #turns/s      (Limit: 0-16.67)
-    pitch_speed: 1000000        #microsteps/s (Limit: *depends on step mode)
-    depth_speed: -4000000       #microsteps/s (Limit: *depends on step mode) 
-    dumpa_speed: 127            #unkown       (Limit: 0-127)
+    loco_left_speed: 66.67      #turns/s       (Limit: 0-66.67)
+    loco_right_speed: 66.67     #turns/s       (Limit: 0-66.67)
+    auger_speed: -16.67         #turns/s       (Limit: 0-16.67)
+    pitch_speed: 1000000        #microsteps/s  (Limit: *depends on step mode)
+    depth_up_speed: 8000000     #microsteps/s  (Limit: *depends on step mode) 
+    depth_down_speed: -2000000  #microsteps/s  (Limit: *depends on step mode)
+    dumpa_speed: 127            #unkown        (Limit: 0-127)
 
     
 
