@@ -218,20 +218,19 @@ void setup() {
 
 void loop() {
   // read distance sensor data
-  VL53L0X_RangingMeasurementData_t measure;
-  sensor.rangingTest(&measure, false); //change bool to true to see DEBUG
+  VL53L0X_RangingMeasurementData_t measure; // VL53L0X_RangingMeasurementData_t is a struct with many uints. Defined in VL53L0X_def.h, which is the type definition file for 
+                                            //    VL53L0X API
+  sensor.rangingTest(&measure, false);      //change bool to true to see DEBUG
 
-  if (measure.RangeStatus != 4) {      // When Range Status is 4 means Phase Failure (meaning we have incorrect data)
-                                       // This is when there is no reading avaialable. (aka nothing is within the range of the sensors ability to "see")
+  if (measure.RangeStatus != 4) {           // When Range Status is 4 this means Phase Failure (meaning we have incorrect data)
+                                            // This is when there is no reading avaialable. (aka nothing is within the range of the sensors ability to "see")
     Serial.print("Distance (mm): ");
-    Serial.println(sensor.readRange()); //readRange returns measure.RangeMilliMeter (thus, "Serial.println(measure.RangeMilliMeter);" can do the same)
+    Serial.println(sensor.readRange());     //readRange returns measure.RangeMilliMeter (thus, "Serial.println(measure.RangeMilliMeter);" can do the same)
   } else {
     Serial.println("Distance (mm): *OUT OF BOUNDS*");
   }
   
-  // read accelerometer and gyroscope data
-  Vector rawAccel = mpu6050.readRawAccel();
-
+  Vector rawAccel = mpu6050.readRawAccel(); // read accelerometer and store in a struct named Vector with float XAxis, float YAxis, and float ZAxis;
   Serial.print("Xraw = ");
   Serial.print(rawAccel.XAxis);
   Serial.print(" Yraw = ");
@@ -239,5 +238,5 @@ void loop() {
   Serial.print(" Zraw = ");
   Serial.println(rawAccel.ZAxis);
   Serial.println("----------------------------------------");
-  delay(1000); // wait for half a second second before taking another measurement
+  delay(1000); // wait for a second second before taking another measurement
 }
