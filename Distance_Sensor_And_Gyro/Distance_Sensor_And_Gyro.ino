@@ -16,7 +16,7 @@
    https://github.com/jarzebski/Arduino-MPU6050 @version 1.0.3
       a) (This is not the Adafruit_MPU6050. That is completely different, need to git clone it into the lib/include of arduino ide environment.)
     
-   @todo Gyro and accelerometer need to be recalibrated. I just want to check if this can be done automatically and quickly.
+   @todo Gyro & accelerometer need to be recalibrated. I just want to check if this can be done automatically and quickly.
       - Look for the following youtube videos to see how to average out the values and fix the Gyros value drift with the accelerametor.
         1) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code, by Joop Brokking 
             - https://www.youtube.com/watch?v=4BoIE8YQwM8
