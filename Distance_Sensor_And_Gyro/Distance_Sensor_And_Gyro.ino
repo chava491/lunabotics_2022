@@ -16,6 +16,14 @@
    https://github.com/jarzebski/Arduino-MPU6050 @version 1.0.3
       a) (This is not the Adafruit_MPU6050. That is completely different, need to git clone it into the lib/include of arduino ide environment.)
     
+   @todo Gyro and accelerometer need to be recalibrated. I just want to check if this can be done automatically and quickly.
+      - Look for the following youtube videos to see how to average out the values and fix the Gyros value drift with the accelerametor.
+        1) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code, by Joop Brokking 
+            - https://www.youtube.com/watch?v=4BoIE8YQwM8
+        2) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code - Part 2, by Joop Brokking 
+            - https://www.youtube.com/watch?v=j-kE0AMEWy4
+
+      THOSE YOUTUBE VIDEOS GIVE INSANELY GOOD EQUATIONS TO HAVE LONG TERM USABLE DATA WITH AUTOMATE RECALIBRATION
    NOTE: The data sheets for the two devices AND their github repositories are as follow:
     VL53L0X:
       - https://www.adafruit.com/product/3317
@@ -29,16 +37,7 @@
     - This Gyroscope measures the rotational motion of the sensor around each of its axes, and its output is expressed in units of degrees per second (dps).
     - This Accelerometer measures in three perpendicular axes, and its output is expressed in three x, y, and z values which describe how much gravity the
     sensor is experiencing on each respective axis. For example, if an accelerometer outputs a value of 2g along its x-axis, this indicates that the sensor is
-    experiencing an acceleration of twice the acceleration due to gravity along the x-axis.      
-
-    TODO: Gyro and accelerometer need to be recalibrated. I just want to check if this can be done automatically and quickly.
-          - Look for the following youtube videos to see how to average out the values and fix the Gyros value drift with the accelerametor.
-          1) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code, by Joop Brokking 
-               - https://www.youtube.com/watch?v=4BoIE8YQwM8
-          2) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code - Part 2, by Joop Brokking 
-               - https://www.youtube.com/watch?v=j-kE0AMEWy4
-
-      THOSE YOUTUBE VIDEOS GIVE INSANELY GOOD EQUATIONS TO HAVE LONG TERM USABLE DATA WITH AUTOMATE RECALIBRATION
+    experiencing an acceleration of twice the acceleration due to gravity along the x-axis.
  */
 #include <Wire.h>             /* Include the Wire library for I2C communication                     */
 #include <Adafruit_VL53L0X.h> /* Include the Adafruit_VL53L0X library for the distance sensor
