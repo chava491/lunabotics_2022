@@ -23,7 +23,10 @@
         2) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code - Part 2, by Joop Brokking 
             - https://www.youtube.com/watch?v=j-kE0AMEWy4
 
+      NOTE: http://www.brokking.net/imu.html houses the videos and example code.
+      
       THOSE YOUTUBE VIDEOS GIVE INSANELY GOOD EQUATIONS TO HAVE LONG-TERM USABLE DATA WITH AUTOMATED RECALIBRATION
+      
    NOTE: The data sheets for the two devices AND their github repositories are as follow:
     VL53L0X:
       - https://www.adafruit.com/product/3317
