@@ -30,6 +30,15 @@
     - This Accelerometer measures in three perpendicular axes, and its output is expressed in three x, y, and z values which describe how much gravity the
     sensor is experiencing on each respective axis. For example, if an accelerometer outputs a value of 2g along its x-axis, this indicates that the sensor is
     experiencing an acceleration of twice the acceleration due to gravity along the x-axis.      
+
+    TODO: Gyro and accelerometer need to be recalibrated. I just want to check if this can be done automatically and quickly.
+          - Look for the following youtube videos to see how to average out the values and fix the Gyros value drift with the accelerametor.
+          1) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code, by Joop Brokking 
+               - https://www.youtube.com/watch?v=4BoIE8YQwM8
+          2) MPU-6050 6dof IMU tutorial for auto-leveling quadcopters with Arduino source code - Part 2, by Joop Brokking 
+               - https://www.youtube.com/watch?v=j-kE0AMEWy4
+
+      THOSE YOUTUBE VIDEOS GIVE INSANELY GOOD EQUATIONS TO HAVE LONG TERM USABLE DATA WITH AUTOMATE RECALIBRATION
  */
 #include <Wire.h>             /* Include the Wire library for I2C communication                     */
 #include <Adafruit_VL53L0X.h> /* Include the Adafruit_VL53L0X library for the distance sensor
@@ -99,9 +108,7 @@ void check_I2C_bus_num_connections(){
       However, a larger range can also reduce the resolution of the measurements, as the same number of digital steps are used to represent a wider range of values. 
       Therefore, the selection of an appropriate range depends on the specific application and the expected acceleration levels.
   @return Accelerometer offset (x / y / z)
-    NOTE: This is to account for the deviation from ideal conditions. 
-    
-    TODO: These need to be recalibrated. I just want to check if this can be done automatically and quickly.
+    NOTE: This is to account for the deviation from ideal conditions.
  */
 
 void checkSettings(){
