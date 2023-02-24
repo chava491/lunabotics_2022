@@ -51,7 +51,9 @@
 /* define the I2C addresses of the sensors */
 #define VL53L0X_ADDRESS 0x29
 #define MPU6050_ADDRESS 0x68
-
+#define GYRO_CALIBRATION_RESOLUTION 1000
+#define DEBUG true
+float gyro_x_offset, gyro_y_offset, gyro_z_offset = 0;
 /** 
   @brief The slave address of the MPU-60X0 is b110100X which is 7 bits long. The LSB bit of the 7 bit address is determined by the logic level on pin AD0. 
    This allows two MPU-60X0s to be connected to the same I2C bus. When used in this configuration, the address of the one of the devices should be 
@@ -79,8 +81,7 @@ void check_I2C_bus_num_connections(){
       Serial.print("I2C device at address 0x");
       if (adr < 16)
         Serial.print("0");
-      Serial.print(adr, HEX);
-      Serial.println("  !");
+        Serial.println(adr, HEX);
       number_of_devices++;
     }
     else if (err == 4){
@@ -147,6 +148,42 @@ void checkSettings(){
   Serial.println();
 }
 
+
+/**    
+  @brief Calculate average x, y, and z axis offsets to get a "zeroed" outs gyro.
+  */ 
+/*
+void gen_gyro_offset(bool debug, int message_delay){
+  Serial.print("Gathering Average Offset ");
+  for (int i = 0; i < GYRO_OFFEST_RESOLUTION; i++){   //Run this code GYRO_OFFEST_RESOLUTION amount of times
+    if(i % 300 == 0) {
+      Serial.print(". ");                             //Print a dot on the LCD every 300 readings
+    }
+    Vector rawAccel = mpu6050.readRawAccel();         //Read the raw acc and gyro data from the MPU-6050
+    gyro_x_offset += rawAccel.XAxis;                  //Add the gyro x-axis offset to the gyro_x_cal variable
+    gyro_y_offset += rawAccel.YAxis;                  //Add the gyro y-axis offset to the gyro_y_cal variable
+    gyro_z_offset += rawAccel.ZAxis;                  //Add the gyro z-axis offset to the gyro_z_cal variable
+    delay(3);                                         //Delay 3us to simulate the 250Hz program loop
+  }
+  Serial.println("");
+
+  gyro_x_offset /= GYRO_OFFEST_RESOLUTION;
+  gyro_y_offset /= GYRO_OFFEST_RESOLUTION;
+  gyro_z_offset /= GYRO_OFFEST_RESOLUTION;
+
+  if (debug == DEBUG){
+    Serial.println("");
+    Serial.print("Gyro Offset Average Resolution: ");
+    Serial.println(GYRO_OFFEST_RESOLUTION);
+    Serial.print("x axis offset: ");
+    Serial.println(gyro_x_offset);
+    Serial.print("y axis offset: ");
+    Serial.println(gyro_y_offset);
+    Serial.print("z axis offset: ");
+    Serial.println(gyro_z_offset);
+  }
+}
+*/
 /**
   @brief This function will initialize the GY-521 breakout board for the MPU-6050 by setting the desired parameters for the function .begin() which are
     1) degrees per second range for the MPU 6050. 2000 DPS is the max rate at which the MPU6050 can support. 
@@ -169,14 +206,16 @@ void checkSettings(){
     3) The final .begin input I used is for the I2C address. Here I have this address in the variable MPU6050_ADDRESS which is 0x68.
  */
 void gyro_init(int message_delay){
-  Serial.println("Initialize MPU6050");  
+  Serial.println("Initialize MPU6050");
   while (!mpu6050.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G, MPU6050_ADDRESS)){
     Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
     delay(500);
   }
+  mpu6050.calibrateGyro(GYRO_CALIBRATION_RESOLUTION);
   mpu6050.setI2CBypassEnabled(true);
   checkSettings();
   delay(message_delay);
+  //gen_gyro_offset(DEBUG, message_delay);
 }
 
 /**
@@ -198,10 +237,11 @@ void gyro_init(int message_delay){
  */
 void distance_sensor_init(){
   Serial.println("Initialize VL53L0X");
-  while (!sensor.begin()) {
+  sensor.begin();
+  /*while (!sensor.begin()) {
     Serial.println("VL53L0X ToF Distance Sensor=> Failed to Initialize");
     delay(1000);
-  }
+  }*/
   // Use long distance mode and allow up to 50000 us (50 ms) for a measurement.
   sensor.setDeviceMode(VL53L0X_DEVICEMODE_CONTINUOUS_RANGING);
   sensor.setMeasurementTimingBudgetMicroSeconds(100000);
@@ -219,7 +259,6 @@ void setup() {
   Serial.begin(9600); // initialize serial communication
   while (!Serial) { } // Wait until serial communication initialization is successfull
   check_I2C_bus_num_connections();
-  delay(3000);
   gyro_init(3000);
   distance_sensor_init();
   delay(2000);
@@ -238,14 +277,14 @@ void loop() {
   } else {
     Serial.println("Distance (mm): *OUT OF BOUNDS*");
   }
-  
-  Vector rawAccel = mpu6050.readRawAccel(); // read accelerometer and store in a struct named Vector with float XAxis, float YAxis, and float ZAxis;
-  Serial.print("Xraw = ");
-  Serial.print(rawAccel.XAxis);
-  Serial.print(" Yraw = ");
-  Serial.print(rawAccel.YAxis);
-  Serial.print(" Zraw = ");
-  Serial.println(rawAccel.ZAxis);
+
+  Vector rawGyro = mpu6050.readNormalizeGyro(); // read accelerometer and store in a struct named Vector with float XAxis, float YAxis, and float ZAxis;
+  Serial.print("X Gyro Raw = ");
+  Serial.print(rawGyro.XAxis);
+  Serial.print(" Y Gyro Raw = ");
+  Serial.print(rawGyro.YAxis);
+  Serial.print(" Z Gyro Raw = ");
+  Serial.println(rawGyro.ZAxis);
   Serial.println("----------------------------------------");
-  delay(1000); // wait for a second second before taking another measurement
+  delay(500);
 }
