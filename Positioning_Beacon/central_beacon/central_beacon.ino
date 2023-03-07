@@ -1,4 +1,5 @@
-/*
+
+/**
   BLE_Central_Device.ino
 
   This program uses the ArduinoBLE library to set-up an Arduino Nano 33 BLE Sense 
@@ -10,7 +11,27 @@
   The circuit:
   - Arduino Nano 33 BLE Sense. 
 
-  This example code is in the public domain.
+  @def In context of Bluetooth Low Energy (BLE) communication:
+    SERVICE: This is simply related data and functionalities that a peripheral device can offer to a central device.
+    CHARACTERISTIC: This is specific data that a peripheral has within a service (shows that it has it). These
+    characteristics are where we can write/read data, receive notifications with an update on data changes, etc.
+
+    DEF: When we want to interact with a CHARACTERISTIC: we would say we are "look(ing) for a specified service and 
+    characteristic in a peripheral device" as above. We can do this by doing the following:
+
+      UUIDS: (Universally Unique Identifiers) 
+        - This is how the program can identify the service and characteristics. On succesfull completion of the identification
+        of the correct characteristic and service, we can write/read data to the characteristics whenever we want.
+        - SIZE: 128-bits
+
+      HOW::TO::OBTAIN::UUIDS:
+        - Through Bluetooth Special Interest Group (SIG)
+            > Refer to Bluetooth SIG website https://www.bluetooth.com/specifications/assigned-numbers/
+              This website contains the list of the standardized services and their corresponding characteristics.
+        - Cutom UUIDs created by me
+            > Use a UUID generator to generate a 128-bit UUID
+            > USE "uuidgen" on my mac terminal for a cutom UUIDs.
+            NOTE: Cutom UUID cannot match an existing standardized UUIDs.
 */
 
 #include <ArduinoBLE.h>
@@ -25,12 +46,23 @@ void setup() {
   Serial.begin(9600); //set the serial number to 9600, same as Baud rate
   while (!Serial);
 
-  if (!BLE.begin()) {
+/**
+  @fn begin()
+  @brief "When BLE.begin() is called, it initializes the BLE stack, sets the default TX power level to the maximum 
+  value, and configures the built-in LED on the Arduino Nano 33 BLE Sense to indicate the status of the BLE connection. 
+  It also starts the internal clock used by the BLE stack to schedule events, such as advertising or scanning.
+  @returns 0 if initialization fails so the while loop is while(1) and can continue to try to initialize BLE
+  @returns non-zero number if initialization is successful.
+  */
+  while (!BLE.begin()) {
     Serial.println("* Starting Bluetooth FAILED!");
-    while (1);
   }
   
   BLE.setLocalName("Nano 33 BLE (Central)"); 
+  /**
+  @brief When a device calls BLE.advertise(), it starts advertising its presence by broadcasting advertising packets at regular intervals. 
+  These advertising packets contain information about the device, such as its name, services offered, and other relevant data.
+   */
   BLE.advertise();
 
   Serial.println("Arduino Nano 33 BLE CENTRAL");
