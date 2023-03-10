@@ -16,13 +16,13 @@
  */
 #include <ArduinoBLE.h>
 
-const char* deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
-const char* deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
+const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E";
+const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31";
 
 int rss = -1;
 
 BLEService rssService(deviceServiceUuid);
-BLEByteCharacteristic rssCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite);
+BLEByteCharacteristic rssCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite | BLENotify | BLEBroadcast);
 
 void setup() {
   Serial.begin(9600);
@@ -54,22 +54,20 @@ void loop() {
     Serial.print("* Device MAC Address: ");
     Serial.println(central.address());
     Serial.println(" ");
-
+/*
+  the RSSI value is the signal strength of the connection between the peripheral and the central device. 
+  The peripheral device is sending the RSSI value to the central device through the RSSI characteristic of the service. 
+  The central device can read this value when it is written to the characteristic.
+ */
     while (central.connected()) {
-      if (rssCharacteristic.written()) {
-        rss = rssCharacteristic.value();
-        writeRss(rss); //WHAT IS THIS????????????????
-      }
+        rss = central.rssi();
+        rssCharacteristic.writeValue(rss);
+        Serial.print("Wrote rssi: ");
+        Serial.println(rss);
+        delay(500);
     }
     
-    Serial.println("* DISCONNECTED to central device!");
+    Serial.println("* DISCONNECTED from central device!");
   }
 }
 
-void writeRss(int rss) {
-  BLEDevice central;
-  Serial.println("- Characteristic <rss> has changed!"); //WHAT???????????????
-
-  rss = BLE.rssi();
-
-}

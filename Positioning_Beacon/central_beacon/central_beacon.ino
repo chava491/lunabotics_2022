@@ -1,4 +1,3 @@
-
 /**
   BLE_Central_Device.ino
 
@@ -28,23 +27,32 @@
         - Through Bluetooth Special Interest Group (SIG)
             > Refer to Bluetooth SIG website https://www.bluetooth.com/specifications/assigned-numbers/
               This website contains the list of the standardized services and their corresponding characteristics.
-        - Cutom UUIDs created by me
+        - Custom UUIDs created by me
             > Use a UUID generator to generate a 128-bit UUID
-            > USE "uuidgen" on my mac terminal for a cutom UUIDs.
-            NOTE: Cutom UUID cannot match an existing standardized UUIDs.
+            > USE "uuidgen" on my mac terminal for a custom UUIDs.
+            NOTE: Custom UUID cannot match an existing standardized UUIDs.
+      
+      RSSI: 
+        - RSSI stands for Received Signal Strength Indicator. It is a measurement of the power level of a received radio signal, 
+        typically in units of decibels (dB). In the context of wireless communication, RSSI is used to estimate the proximity of 
+        a transmitter to a receiver.
+
+        - RSSI is a relative measurement, meaning that it provides an indication of the strength of the received signal compared to 
+        a reference level. The reference level can vary depending on the system, but it is typically the minimum signal strength 
+        that the receiver can detect.
+
+        - In general, a higher RSSI value indicates a stronger received signal, while a lower value indicates a weaker signal. 
+        However, the actual RSSI value can be affected by a number of factors, such as distance, obstacles, interference, and 
+        environmental conditions. Therefore, it is important to interpret RSSI values in the context of the specific system and application.
 */
 
 #include <ArduinoBLE.h>
 
-const char* deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214"; //same call on Periph.
-const char* deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";  //same call on Periph.
+const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E"; //same call on Periph.
+const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31";  //same call on Periph.
 
 int rss = -1;
 int oldRssValue = -1;
-
-void setup() {
-  Serial.begin(9600); //set the serial number to 9600, same as Baud rate
-  while (!Serial);
 
 /**
   @fn begin()
@@ -54,6 +62,11 @@ void setup() {
   @returns 0 if initialization fails so the while loop is while(1) and can continue to try to initialize BLE
   @returns non-zero number if initialization is successful.
   */
+
+void setup() {
+  Serial.begin(9600); //set the serial port to 9600, same as Baud rate
+  while (!Serial);
+  Serial.println("* RUNNING CENTRAL BEACON SETUP!");
   while (!BLE.begin()) {
     Serial.println("* Starting Bluetooth FAILED!");
   }
@@ -132,28 +145,34 @@ void controlPeripheral(BLEDevice peripheral) {
       peripheral.disconnect();
       return;
   }
+  Serial.println("Reading RSSI");
 
   while (peripheral.connected()) {
-    rss = rssDetection();
 
-    if (oldRssValue != rss){
+    /*if (oldRssValue != rss){
       oldRssValue = rss;
       Serial.print("*Writing value to rss characteristic: ");
       Serial.println(rss);
       rssCharacteristic.writeValue((byte)rss);
       Serial.println("*Writing value to rss characteristic DONE!");
       Serial.println(" ");
+      delay(500);
+    }*/
+    if (rssCharacteristic.written()) {
+      Serial.println("READING RSSI");
+      
+      uint8_t value[20]; // array to hold the characteristic value
+      int length = rssCharacteristic.valueLength(); // get the length of the value
+      const uint8_t* pValue = rssCharacteristic.value(); // get a pointer to the value
+      memcpy(value, pValue, length); // copy the value to the array
+      Serial.print("RSSI bleDevice = ");
+      Serial.println(rss);
     }
-
-    //Serial.print("RSSI bleDevice = ");
-    //Serial.println(bleDevice.rssi());
-  
   }
   Serial.println("- Peripheral device disconnected!");
 }
 
 int rssDetection(){
-  BLEDevice peripheral;
   
   rss = BLE.rssi();
   
