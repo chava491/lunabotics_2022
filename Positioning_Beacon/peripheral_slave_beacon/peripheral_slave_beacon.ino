@@ -1,5 +1,5 @@
 /**
-  @file peripheral_slave_beacon
+  @file peripheral_slave_beacon.ino
   @author salvador guel
   @brief This is the setup up code for the slave beacon. This beacon will be used for the 
   robots positioning system for the autonomy. In terms of the algorithm, this is the part of the
