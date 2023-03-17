@@ -47,6 +47,7 @@
 */
 
 #include <ArduinoBLE.h>
+#include <BLECharacteristic.h>
 
 const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E"; //same call on Periph.
 const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31";  //same call on Periph.
@@ -54,6 +55,7 @@ const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622
 int rss = -1;
 int oldRssValue = -1;
 
+BLEDevice peripheral;
 /**
   @fn begin()
   @brief "When BLE.begin() is called, it initializes the BLE stack, sets the default TX power level to the maximum 
@@ -87,7 +89,7 @@ void loop() {
 }
 
 void connectToPeripheral(){
-  BLEDevice peripheral;
+  //BLEDevice peripheral;
   
   Serial.println("- Discovering peripheral device...");
 
@@ -109,6 +111,10 @@ void connectToPeripheral(){
     BLE.stopScan();
     controlPeripheral(peripheral);
   }
+}
+
+void onCharacteristicWritten(BLEDevice peripheral, BLECharacteristic characteristic) {
+  Serial.println("VAL UPDATED");
 }
 
 void controlPeripheral(BLEDevice peripheral) {
@@ -145,29 +151,22 @@ void controlPeripheral(BLEDevice peripheral) {
       peripheral.disconnect();
       return;
   }
+
+  rssCharacteristic.setEventHandler(BLEWritten, onCharacteristicWritten);
+
   Serial.println("Reading RSSI");
 
   while (peripheral.connected()) {
+    uint8_t rssi_length = 1;
+    uint8_t rssi_value[rssi_length];
+    //Serial.println(rssCharacteristic.read());
+    rssCharacteristic.readValue(rssi_value, rssi_length);
 
-    /*if (oldRssValue != rss){
-      oldRssValue = rss;
-      Serial.print("*Writing value to rss characteristic: ");
-      Serial.println(rss);
-      rssCharacteristic.writeValue((byte)rss);
-      Serial.println("*Writing value to rss characteristic DONE!");
-      Serial.println(" ");
-      delay(500);
-    }*/
-    if (rssCharacteristic.written()) {
-      Serial.println("READING RSSI");
-      
-      uint8_t value[20]; // array to hold the characteristic value
-      int length = rssCharacteristic.valueLength(); // get the length of the value
-      const uint8_t* pValue = rssCharacteristic.value(); // get a pointer to the value
-      memcpy(value, pValue, length); // copy the value to the array
-      Serial.print("RSSI bleDevice = ");
-      Serial.println(rss);
+    /* Serial.print("RSSI value: ");
+      for (int i = 0; i < rssi_length; i++) {
+      Serial.print(rssi_value[i]);
     }
+    */
   }
   Serial.println("- Peripheral device disconnected!");
 }

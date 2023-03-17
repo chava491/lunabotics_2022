@@ -15,14 +15,30 @@
 ​     NOTE: View image named "repulsive_attractive_idea.png"
  */
 #include <ArduinoBLE.h>
+#define SAMPLE_RATE 100
+
+int debounced_rssi_val;
+int rss = -1;
 
 const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E";
 const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31";
 
-int rss = -1;
-
 BLEService rssService(deviceServiceUuid);
-BLEByteCharacteristic rssCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite | BLENotify | BLEBroadcast);
+BLEByteCharacteristic rssCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite | BLENotify | BLEBroadcast | BLEIndicate);
+
+BLEDevice central;
+
+
+int debounced_rssi(int sample_rate = SAMPLE_RATE){
+  int rssi_sum = 0;
+
+  for (int i = 0; i <= sample_rate; i++){
+    rssi_sum += central.rssi();
+    delay(10);
+  }
+  debounced_rssi_val = rssi_sum/sample_rate;
+  return debounced_rssi_val;
+}
 
 void setup() {
   Serial.begin(9600);
@@ -37,7 +53,6 @@ void setup() {
   BLE.setAdvertisedService(rssService);
   rssService.addCharacteristic(rssCharacteristic);
   BLE.addService(rssService);
-  rssCharacteristic.writeValue(-1);
   BLE.advertise();
 
   Serial.println("Nano 33 BLE PERIPHERAL");
@@ -45,7 +60,7 @@ void setup() {
 }
 
 void loop() {
-  BLEDevice central = BLE.central();
+  central = BLE.central();
   Serial.println("- Discovering central device...");
   delay(500);
 
@@ -60,11 +75,10 @@ void loop() {
   The central device can read this value when it is written to the characteristic.
  */
     while (central.connected()) {
-        rss = central.rssi();
-        rssCharacteristic.writeValue(rss);
-        Serial.print("Wrote rssi: ");
-        Serial.println(rss);
-        delay(500);
+      int rssi_value = debounced_rssi();
+      rssCharacteristic.writeValue(rssi_value);
+      Serial.print("Debounced Value: ");
+      Serial.println(rssi_value);
     }
     
     Serial.println("* DISCONNECTED from central device!");
