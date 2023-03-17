@@ -113,8 +113,17 @@ void connectToPeripheral(){
   }
 }
 
-void onCharacteristicWritten(BLEDevice peripheral, BLECharacteristic characteristic) {
-  Serial.println("VAL UPDATED");
+void onCharacteristicWritten(BLEDevice peripheral, BLECharacteristic rssCharacteristic) {
+  uint8_t rssi_length = 1;
+    uint8_t rssi_value[rssi_length];
+    //Serial.println(rssCharacteristic.read());
+    rssCharacteristic.readValue(rssi_value, rssi_length);
+
+    Serial.print("RSSI value: ");
+      for (int i = 0; i < rssi_length; i++) {
+      Serial.println(rssi_value[i]-256);
+    }
+    
 }
 
 void controlPeripheral(BLEDevice peripheral) {
@@ -153,27 +162,18 @@ void controlPeripheral(BLEDevice peripheral) {
   }
 
   rssCharacteristic.setEventHandler(BLEWritten, onCharacteristicWritten);
-
+  // Subscribe to notifications on the characteristic
+  rssCharacteristic.subscribe();
+  Serial.println("Subscribed to peripheral characteristic notifications");
   Serial.println("Reading RSSI");
 
   while (peripheral.connected()) {
-    uint8_t rssi_length = 1;
-    uint8_t rssi_value[rssi_length];
-    //Serial.println(rssCharacteristic.read());
-    rssCharacteristic.readValue(rssi_value, rssi_length);
-
-    /* Serial.print("RSSI value: ");
-      for (int i = 0; i < rssi_length; i++) {
-      Serial.print(rssi_value[i]);
-    }
-    */
+    //DO NOTHING EVENT HANDLER WILL TAKE CARE OF IT
   }
   Serial.println("- Peripheral device disconnected!");
 }
 
 int rssDetection(){
-  
   rss = BLE.rssi();
-  
   return rss;
 }

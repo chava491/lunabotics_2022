@@ -15,7 +15,7 @@
 ​     NOTE: View image named "repulsive_attractive_idea.png"
  */
 #include <ArduinoBLE.h>
-#define SAMPLE_RATE 100
+#define SAMPLE_RATE 50
 
 int debounced_rssi_val;
 int rss = -1;
@@ -34,7 +34,6 @@ int debounced_rssi(int sample_rate = SAMPLE_RATE){
 
   for (int i = 0; i <= sample_rate; i++){
     rssi_sum += central.rssi();
-    delay(10);
   }
   debounced_rssi_val = rssi_sum/sample_rate;
   return debounced_rssi_val;
