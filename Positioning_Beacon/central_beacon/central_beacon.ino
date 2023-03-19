@@ -49,24 +49,21 @@
 #include <ArduinoBLE.h>
 #include <BLECharacteristic.h>
 
-const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E"; //same call on Periph.
-const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31";  //same call on Periph.
+const char* deviceServiceUuid = "6BEF468D-C030-4DCB-9EA6-C6B11385664E";               // Service UUID which is the same as the peripheral device. It is used to identify the service being offered by the peripheral device.
+const char* deviceServiceCharacteristicUuid = "0F428CF1-190F-4BFC-BB9E-2833DB622A31"; // Characteristic UUID which is the same as the peripheral device. It is used to identify the characteristic being offered by the peripheral device.
+/*
+    HOW THE CENTRAL DEVICE FINDS THE PERIPHERAL DEVICE:
 
+    When a peripheral device advertises a service, it includes the service UUID in its advertising packets. Thus, the central device can scan for advertising packets and 
+    use the service UUID to identify the peripheral device and the service that it provides.
+*/
 int rss = -1;
 int oldRssValue = -1;
 
-BLEDevice peripheral;
-/**
-  @fn begin()
-  @brief "When BLE.begin() is called, it initializes the BLE stack, sets the default TX power level to the maximum 
-  value, and configures the built-in LED on the Arduino Nano 33 BLE Sense to indicate the status of the BLE connection. 
-  It also starts the internal clock used by the BLE stack to schedule events, such as advertising or scanning.
-  @returns 0 if initialization fails so the while loop is while(1) and can continue to try to initialize BLE
-  @returns non-zero number if initialization is successful.
-  */
+BLEDevice peripheral; // Create a BLEDevice object named "peripheral"
 
 void setup() {
-  Serial.begin(9600); //set the serial port to 9600, same as Baud rate
+  Serial.begin(9600);
   while (!Serial);
   Serial.println("* RUNNING CENTRAL BEACON SETUP!");
   while (!BLE.begin()) {
@@ -95,11 +92,11 @@ void connectToPeripheral(){
 
   do
   {
-    BLE.scanForUuid(deviceServiceUuid);
-    peripheral = BLE.available();
-  } while (!peripheral);
+    BLE.scanForUuid(deviceServiceUuid);     // Scan for the service UUID of the peripheral device.
+    peripheral = BLE.available();           // Check if a peripheral device is available.
+  } while (!peripheral);          
   
-  if (peripheral) {
+  if (peripheral) {                         // If a peripheral device is available, do the following:
     Serial.println("* Peripheral device found!");
     Serial.print("* Device MAC address: ");
     Serial.println(peripheral.address());
@@ -109,20 +106,19 @@ void connectToPeripheral(){
     Serial.println(peripheral.advertisedServiceUuid());
     Serial.println(" ");
     BLE.stopScan();
-    controlPeripheral(peripheral);
+    controlPeripheral(peripheral);        // Call the controlPeripheral() function to connect to the peripheral device.
   }
 }
 
 void onCharacteristicWritten(BLEDevice peripheral, BLECharacteristic rssCharacteristic) {
   uint8_t rssi_length = 1;
-    uint8_t rssi_value[rssi_length];
-    //Serial.println(rssCharacteristic.read());
-    rssCharacteristic.readValue(rssi_value, rssi_length);
+  uint8_t rssi_value[rssi_length];    
+  rssCharacteristic.readValue(rssi_value, rssi_length); // Read the value of the characteristic.
 
-    Serial.print("RSSI value: ");
-      for (int i = 0; i < rssi_length; i++) {
+  Serial.print("RSSI value: ");                         // Print the value of the characteristic.         
+    for (int i = 0; i < rssi_length; i++) {
       Serial.println(rssi_value[i]-256);
-    }
+  }
     
 }
 
@@ -149,31 +145,26 @@ void controlPeripheral(BLEDevice peripheral) {
     return;
   }
 
-  BLECharacteristic rssCharacteristic = peripheral.characteristic(deviceServiceCharacteristicUuid);
+  BLECharacteristic rssCharacteristic = peripheral.characteristic(deviceServiceCharacteristicUuid);   // Get the characteristic with the specified service UUID.
 
-  if (!rssCharacteristic) {
+  if (!rssCharacteristic) {                                                                           // Check if the characteristic is valid.
     Serial.println("* Peripheral does not have rss characteristic!");
     peripheral.disconnect();
     return;
-  } else if (!rssCharacteristic.canWrite()) {
+  } else if (!rssCharacteristic.canWrite()) {                                                         // Check if the characteristic is writable.
       Serial.println("* Peripheral does not have a writable rss characteristic!");
       peripheral.disconnect();
       return;
   }
 
-  rssCharacteristic.setEventHandler(BLEWritten, onCharacteristicWritten);
-  // Subscribe to notifications on the characteristic
-  rssCharacteristic.subscribe();
+  rssCharacteristic.setEventHandler(BLEWritten, onCharacteristicWritten);   // Set the event handler for the characteristic. 
+                                                                            // The event is triggered when the characteristic is written to by the peripheral device.
+  rssCharacteristic.subscribe();                                            // Subscribe to the characteristic's value notifications. We must do this to be notified when the characteristic's value changes.
   Serial.println("Subscribed to peripheral characteristic notifications");
   Serial.println("Reading RSSI");
 
   while (peripheral.connected()) {
-    //DO NOTHING EVENT HANDLER WILL TAKE CARE OF IT
+    //DO NOTHING EVENT HANDLER WILL TAKE CARE OF WHAT MUST BE DONE.
   }
   Serial.println("- Peripheral device disconnected!");
-}
-
-int rssDetection(){
-  rss = BLE.rssi();
-  return rss;
 }
